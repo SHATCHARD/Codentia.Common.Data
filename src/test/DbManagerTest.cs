@@ -85,9 +85,9 @@ namespace Codentia.Common.Data.Test
                 expectedPassword = "E67F2501-00C6-4AD4-8079-00216831AECC";
             }
 
-            if (server.Server == "MIDEV02")
+            if (server.Server == "CEDEV1002")
             {
-                expectedServer = @"MIDEV02\DEV2012";
+                expectedServer = @"CEDEV1002\DEV2012";
                 expectedPassword = "8AC7025B-3AE6-455B-8171-92ACC0028621";
             }
 
