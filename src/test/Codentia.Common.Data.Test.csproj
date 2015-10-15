@@ -79,7 +79,6 @@
   <ItemGroup>
     <None Include="Codentia.Common.Data.Test.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
