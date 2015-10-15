@@ -430,7 +430,7 @@ namespace Codentia.Common.Data.Test
             string[] parts = connectionString.Split(';');
 
             string instance = null;
-            if (parts[0] == "Data Source=MIDEV02\\DEV2012")
+            if (parts[0] == "Data Source=CEDEV1002\\DEV2012")
             {
                 instance = "DEV2012";
             }
