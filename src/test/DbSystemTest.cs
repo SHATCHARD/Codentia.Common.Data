@@ -435,6 +435,11 @@ namespace Codentia.Common.Data.Test
                 instance = "DEV2012";
             }
 
+            if (parts[0] == "Data Source=DESKTOP-3UI717B\\SQLEXPRESS")
+            {
+                instance = "SQLEXPRESS";
+            }
+
             if (parts[0] == "Data Source=SRV02\\BUILD")
             {
                 instance = "BUILD";
