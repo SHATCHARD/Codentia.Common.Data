@@ -25,14 +25,10 @@ namespace Codentia.Common.Data.Test
             {
                 case "MIDEV01":
                     return "E67F2501-00C6-4AD4-8079-00216831AECC";
-                case "CEDEV1002":
-<<<<<<< HEAD
-                    return "8AC7025B-3AE6-455B-8171-92ACC0028621";
-=======
+                case "CEDEV1002":                    
                     return "8AC7025B-3AE6-455B-8171-92ACC0028621";
                 case "DESKTOP-3UI717B":
                     return "A2F6A11A-7D59-4052-ACF2-770FDC9B59F6";
->>>>>>> master
                 case "SRV02":
                     return "Bu1ld";
                 case "SRV03":
@@ -52,13 +48,9 @@ namespace Codentia.Common.Data.Test
             switch (server)
             {
                 case "CEDEV1002":
-<<<<<<< HEAD
-                    return "DEV2012";
-=======
                     return "DEV2012";
                 case "DESKTOP-3UI717B":
                     return "SQLEXPRESS";
->>>>>>> master
                 case "SRV02":
                     return "BUILD";
                 case "SRV03":

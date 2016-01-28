@@ -23,14 +23,10 @@
             <PackageSource Include="https://www.nuget.org/api/v2/" />
             <PackageSource Include="https://my-nuget-source/nuget/" />
         -->
-<<<<<<< HEAD
-      <PackageSource Include="http://nuget.code.je/nuget" />
-    </ItemGroup>
-=======
+
     <PackageSource Include="http://nuget.code.je/nuget" />
     <PackageSource Include="https://www.nuget.org/api/v2/" />
   </ItemGroup>
->>>>>>> master
 
     <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
         <!-- Windows specific commands -->
