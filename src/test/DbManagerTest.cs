@@ -91,6 +91,12 @@ namespace Codentia.Common.Data.Test
                 expectedPassword = "8AC7025B-3AE6-455B-8171-92ACC0028621";
             }
 
+            if (server.Server == "DESKTOP-3UI717B")
+            {
+                expectedServer = @"DESKTOP-3UI717B\SQLEXPRESS";
+                expectedPassword = "A2F6A11A-7D59-4052-ACF2-770FDC9B59F6";
+            }
+
             if (server.Server == "SRV02")
             {
                 expectedServer = @"SRV02\BUILD";
