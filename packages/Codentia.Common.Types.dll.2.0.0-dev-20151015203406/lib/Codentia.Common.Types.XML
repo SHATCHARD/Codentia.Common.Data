@@ -1,0 +1,534 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Codentia.Common.Types</name>
+    </assembly>
+    <members>
+        <member name="T:Codentia.Common.DuplicateEmailAddressException">
+            <summary>
+            DuplicateEmailAddressException class - exception class for Email Validation
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.DuplicateEmailAddressException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.DuplicateEmailAddressException"/> class.
+            </summary>        
+            <param name="message">Internal message</param>
+        </member>
+        <member name="M:Codentia.Common.DuplicateEmailAddressException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.DuplicateEmailAddressException"/> class.
+            </summary>        
+            <param name="message">Internal message</param>
+            <param name="innerException">Inner Exception</param>
+        </member>
+        <member name="T:Codentia.Common.IAddress">
+            <summary>
+            This interface must be implemented by all objects which are to be treated as Addresses
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.IAddress.ConcatenateAddress(System.String,System.Boolean)">
+            <summary>
+            Concatenates the address.
+            </summary>
+            <param name="delimiter">The delimiter.</param>
+            <param name="isPostCodeRequired">if set to <c>true</c> [is post code required].</param>
+            <returns>string of concatenated address</returns>
+        </member>
+        <member name="P:Codentia.Common.IAddress.FirstName">
+            <summary>
+            Gets the first name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.LastName">
+            <summary>
+            Gets the last name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.HouseName">
+            <summary>
+            Gets the HouseName
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.Street">
+            <summary>
+            Gets the Street
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.Town">
+            <summary>
+            Gets the Town
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.City">
+            <summary>
+            Gets the City
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.County">
+            <summary>
+            Gets the County
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.Country">
+            <summary>
+            Gets the country.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IAddress.Postcode">
+            <summary>
+            Gets the Postcode
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.IContactDetails">
+            <summary>
+            Represents a set of contact details
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IContactDetails.EmailAddress">
+            <summary>
+            Gets the email address.
+            </summary>
+            <value>The email address.</value>
+        </member>
+        <member name="T:Codentia.Common.InvalidEmailAddressException">
+            <summary>
+            InvalidEmailAddressException class - exception class for Email Validation
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.InvalidEmailAddressException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.InvalidEmailAddressException"/> class.
+            </summary>        
+            <param name="message">Internal message</param>
+        </member>
+        <member name="M:Codentia.Common.InvalidEmailAddressException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.InvalidEmailAddressException"/> class.
+            </summary>        
+            <param name="message">Internal message</param>
+            <param name="innerException">Inner Exception</param>
+        </member>
+        <member name="T:Codentia.Common.InvalidPasswordException">
+            <summary>
+            InvalidPasswordException class - exception class for Email Validation
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.InvalidPasswordException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.InvalidPasswordException"/> class.
+            </summary>        
+            <param name="message">Internal message</param>
+        </member>
+        <member name="M:Codentia.Common.InvalidPasswordException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.InvalidPasswordException"/> class.
+            </summary>        
+            <param name="message">Internal message</param>
+            <param name="innerException">Inner Exception</param>
+        </member>
+        <member name="T:Codentia.Common.IOrder">
+            <summary>
+            Order Interface
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IOrder.PaymentAddress">
+            <summary>
+            Gets the payment address.
+            </summary>
+            <value>The payment address.</value>
+        </member>
+        <member name="P:Codentia.Common.IOrder.Contact">
+            <summary>
+            Gets the contact.
+            </summary>
+            <value>The contact.</value>
+        </member>
+        <member name="P:Codentia.Common.IOrder.Total">
+            <summary>
+            Gets the total.
+            </summary>
+            <value>The total.</value>
+        </member>
+        <member name="P:Codentia.Common.IOrder.Reference">
+            <summary>
+            Gets the reference.
+            </summary>
+            <value>The reference.</value>
+        </member>
+        <member name="T:Codentia.Common.IProduct">
+            <summary>
+            Common Interface describing a "product" - used for import/export/transfer of product data
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Code">
+            <summary>
+            Gets the unique code identifying the product
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Title">
+            <summary>
+            Gets or sets the title of the product (short description)
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Description">
+            <summary>
+            Gets or sets the detailed (long) description of the product
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Merchant">
+            <summary>
+            Gets or sets the title of the merchant selling the product
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.ImageFullSizeUrl">
+            <summary>
+            Gets or sets the URL pointing to a full-size image of the product
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.ImageThumbnailUrl">
+            <summary>
+            Gets or sets the URL pointing to a thumbnail image of the product
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Price">
+            <summary>
+            Gets or sets the price of the product in GBP
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.QuantityInStock">
+            <summary>
+            Gets or sets the quantity available in stock
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Weight">
+            <summary>
+             Gets or sets the weight in grams
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.IProduct.Category">
+            <summary>
+            Gets the Category (String describing the type of product, or categories to which it belongs)
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.LookupPair">
+            <summary>
+            This struct represents a lightweight key/value pair, used for populating simple datastructures and controls.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.LookupPair.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.LookupPair"/> struct.
+            </summary>
+            <param name="key">The key.</param>
+            <param name="value">The value.</param>
+        </member>
+        <member name="P:Codentia.Common.LookupPair.Key">
+            <summary>
+            Gets the Key
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.LookupPair.Value">
+            <summary>
+            Gets the Value
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.SimpleAddress">
+            <summary>
+            SimpleAddress is a basic address-holding class confirming to <see cref="T:Codentia.Common.IAddress"/>
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SimpleAddress.#ctor(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.SimpleAddress"/> class.
+            </summary>
+            <param name="firstName">The first name.</param>
+            <param name="lastName">The last name.</param>
+            <param name="houseName">Name of the house.</param>
+            <param name="street">The street.</param>
+            <param name="town">The town.</param>
+            <param name="city">The city.</param>
+            <param name="county">The county.</param>
+            <param name="countryName">Name of the country.</param>
+            <param name="postcode">The postcode.</param>
+        </member>
+        <member name="M:Codentia.Common.SimpleAddress.ConcatenateAddress(System.String,System.Boolean)">
+            <summary>
+            Concatenates the address.
+            </summary>
+            <param name="delimiter">The delimiter.</param>
+            <param name="isPostCodeRequired">if set to <c>true</c> [is post code required].</param>
+            <returns>
+            string of concatenated address
+            </returns>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.FirstName">
+            <summary>
+            Gets the first name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.LastName">
+            <summary>
+            Gets the last name.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.HouseName">
+            <summary>
+            Gets the HouseName
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.Street">
+            <summary>
+            Gets the Street
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.Town">
+            <summary>
+            Gets the Town
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.City">
+            <summary>
+            Gets the City
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.County">
+            <summary>
+            Gets the County
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.Country">
+            <summary>
+            Gets the name of the country.
+            </summary>
+            <value>
+            The name of the country.
+            </value>
+        </member>
+        <member name="P:Codentia.Common.SimpleAddress.Postcode">
+            <summary>
+            Gets the Postcode
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.SingleThreadedServiceBase">
+            <summary>
+            This class extends the system ServiceBase class, providing a service wrapper which handles stop/start and wait behaviour.
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SingleThreadedServiceBase._isRunning">
+            <summary>
+            Flag indicating the current run-state of the service process
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SingleThreadedServiceBase._mainThreadSleepMilliseconds">
+            <summary>
+            Sleep time of main thread (ms)
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SingleThreadedServiceBase._mainThreadSleepSegment">
+            <summary>
+            Sleep time interval of main thread (ms)
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SingleThreadedServiceBase._localMainEntryPoint">
+            <summary>
+            Delegate indicating the method which should be executed by the main thread
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.SingleThreadedServiceBase"/> class.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.StartService(System.String[])">
+            <summary>
+            Internal only method for use in unit testing - provides a hook to the OnStart event trigger.
+            </summary>
+            <param name="args">Command Line arguments</param>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.StopService">
+            <summary>
+            Internal only method for use in unit testing - provides a hook to the OnStop event trigger.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.Initialise(Codentia.Common.SingleThreadedServiceBase.MainThreadEntryPoint)">
+            <summary>
+            Initialise the service ready for use - set thread entry points (etc)
+            </summary>
+            <param name="mainThread">Main Thread Entry Point</param>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.OnStart(System.String[])">
+            <summary>
+            OnStart handler.
+            </summary>
+            <param name="args">Command line arguments</param>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.OnStop">
+            <summary>
+            OnStop handler.
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SingleThreadedServiceBase.MainThread">
+            <summary>
+            Main (loop) thread used to manage execution.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SingleThreadedServiceBase.MainThreadSleepMilliseconds">
+            <summary>
+             Gets or sets the number of milliseconds which the main thread should sleep inbetween cycles. Defaults to 1000ms.
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SingleThreadedServiceBase.MainThreadSleepSegment">
+            <summary>
+            Gets or sets the size of the segment (milliseconds) in which the main thread should execute its sleeps between cycles.
+            This is used to allow more responsive behaviour when asked to stop. Defaults to 100ms.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.SingleThreadedServiceBase.MainThreadEntryPoint">
+            <summary>
+            Delegate used to pass a reference to the method which should be executed on each service cycle.
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.SqlDbObject">
+            <summary>
+            SqlDbObject structure
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SqlDbObject.#ctor(Codentia.Common.SqlDbObjectType,System.String,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Codentia.Common.SqlDbObject"/> struct.
+            </summary>
+            <param name="sqlType">SqlDbObjectType enum</param>
+            <param name="type">type/xType for use in querying sysobjects</param>
+            <param name="dropObjectTemplate">Template used for dropping object</param>
+            <param name="needsTableNameForDrop">decides whether the table Name is also used in the drop template</param>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObject.SqlDbObjectType">
+            <summary>
+            Gets the SqlDbObjectType
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObject.XType">
+            <summary>
+            Gets the XType
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObject.DropObjectTemplate">
+            <summary>
+            Gets the DropObjectTemplate
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObject.NeedsTableNameForDrop">
+            <summary>
+            Gets a value indicating whether it needs the table name for dropping
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.SqlDbObjectCollection">
+            <summary>
+            Collection of data regarding SqlDbOjects
+            </summary>
+        </member>
+        <member name="M:Codentia.Common.SqlDbObjectCollection.GetSqlDbObjectByXType(System.String)">
+            <summary>
+            Get SqlDbObject By XType 
+            </summary>
+            <param name="type">type/xType for the object</param>
+            <returns>SqlDbObject object</returns>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.Table">
+            <summary>
+            Gets the Table 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.StoredProcedure">
+            <summary>
+            Gets the StoredProcedure 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.ScalarFunction">
+            <summary>
+            Gets the ScalarFunction 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.InLineFunction">
+            <summary>
+            Gets the InLineFunction 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.TableFunction">
+            <summary>
+            Gets the TableFunction 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.FK">
+            <summary>
+            Gets the FK 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.PK">
+            <summary>
+            Gets the PK 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.View">
+            <summary>
+            Gets the View 
+            </summary>
+        </member>
+        <member name="P:Codentia.Common.SqlDbObjectCollection.List">
+            <summary>
+            Gets the List 
+            </summary>
+        </member>
+        <member name="T:Codentia.Common.SqlDbObjectType">
+            <summary>
+            Types of Modes which can be used in FrontUp
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.FK">
+            <summary>
+            FK (Foreign Key)
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.Function_InLine">
+            <summary>
+            InLine Function
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.Function_Scalar">
+            <summary>
+            Scalar Function
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.Function_Table">
+            <summary>
+            Table Function
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.IX">
+            <summary>
+            IX (Index)
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.PK">
+            <summary>
+            PK (Primary Key)
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.StoredProcedure">
+            <summary>
+            Stored Procedure
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.Table">
+            <summary>
+            Table Object
+            </summary>
+        </member>
+        <member name="F:Codentia.Common.SqlDbObjectType.View">
+            <summary>
+            View Object
+            </summary>
+        </member>
+    </members>
+</doc>

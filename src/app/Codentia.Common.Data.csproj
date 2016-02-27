@@ -38,9 +38,8 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Codentia.Common.Types, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Codentia.Common.Types.dll.2.0.0-dev-20151015203406\lib\Codentia.Common.Types.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Codentia.Common.Types">
+      <HintPath>..\..\packages\Codentia.Common.Types.dll.2.0.0-dev-20160216094650\lib\Codentia.Common.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -56,6 +55,7 @@
     <Compile Include="Configuration\SourceConfigurationCollection.cs" />
     <Compile Include="Configuration\SourceConfigurationElement.cs" />
     <Compile Include="ConnectionStringFormat.Designer.cs" />
+    <Compile Include="DbContext.cs" />
     <Compile Include="DbInterface.cs" />
     <Compile Include="DbManager.cs" />
     <Compile Include="DbParameter.cs" />
