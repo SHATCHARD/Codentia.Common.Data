@@ -13,7 +13,7 @@ namespace Codentia.Common.Data.Configuration
         /// <value>
         /// The name.
         /// </value>
-        [ConfigurationProperty("name", IsRequired = false, DefaultValue = "Default")]
+        [ConfigurationProperty("name", IsRequired = true)]
         public string Name
         {
             get
@@ -24,6 +24,26 @@ namespace Codentia.Common.Data.Configuration
             set
             {
                 this["name"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the provider.
+        /// </summary>
+        /// <value>
+        /// The provider.
+        /// </value>
+        [ConfigurationProperty("provider", IsRequired = true)]
+        public string Provider
+        {
+            get
+            {
+                return (string)this["provider"];
+            }
+
+            set
+            {
+                this["provider"] = value;
             }
         }
 
