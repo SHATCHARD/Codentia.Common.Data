@@ -12,10 +12,10 @@ namespace Codentia.Common.Data.Provider
     /// </summary>
     public class SqlServerConnectionProvider : IDbConnectionProvider
     {
-        private const string ConnectionStringNoInstanceIntegrated = @"Data Source={0};Initial Catalog={1};IntegratedSecurity=SSPI;";
-        private const string ConnectionStringInstanceIntegrated = @"Data Source={0}\{1};Initial Catalog={1};IntegratedSecurity=SSPI;";
-        private const string ConnectionStringNoInstance = @"Data Source={0};Initial Catalog={1};User Id={2};Password={3};";
-        private const string ConnectionStringInstance = @"Data Source={0}\{1};Initial Catalog={1};User Id={2};Password={3};";
+        private const string ConnectionStringNoInstanceIntegrated = @"Data Source={0};Initial Catalog={2};IntegratedSecurity=SSPI;";
+        private const string ConnectionStringInstanceIntegrated = @"Data Source={0}\{1};Initial Catalog={2};IntegratedSecurity=SSPI;";
+        private const string ConnectionStringNoInstance = @"Data Source={0};Initial Catalog={2};User Id={3};Password={4};";
+        private const string ConnectionStringInstance = @"Data Source={0}\{1};Initial Catalog={2};User Id={3};Password={4};";
 
         private string _connectionString;
 
@@ -55,7 +55,7 @@ namespace Codentia.Common.Data.Provider
                 }
             }
 
-            _connectionString = string.Format(connectionStringPattern, server, database, userId, password);
+            _connectionString = string.Format(connectionStringPattern, server, instance, database, userId, password);
         }
 
         /// <summary>

@@ -55,7 +55,7 @@ namespace Codentia.Common.Data.Configuration
                             throw new Exception(string.Format("Unable to load configuration for Db={0}, Server={1}", configuration.Databases[i].Name, System.Environment.MachineName));
                         }
 
-                        this.AddDatabaseSource(configuration.Databases[i].Provider, sourceConfig.Server, sourceConfig.Instance, sourceConfig.Database, sourceConfig.User, sourceConfig.Password, sourceConfig.IntegratedSecurity != string.Empty);
+                        this.AddDatabaseSource(configuration.Databases[i].Name.ToLower(), configuration.Databases[i].Provider, sourceConfig.Server, sourceConfig.Instance, sourceConfig.Database, sourceConfig.User, sourceConfig.Password, sourceConfig.IntegratedSecurity.ToLower() == "true");
                     }
                 }
             }
@@ -87,6 +87,7 @@ namespace Codentia.Common.Data.Configuration
         /// <summary>
         /// Adds the database source.
         /// </summary>
+        /// <param name="name">The name.</param>
         /// <param name="providerReference">The provider reference.</param>
         /// <param name="server">The server.</param>
         /// <param name="instance">The instance.</param>
@@ -106,7 +107,7 @@ namespace Codentia.Common.Data.Configuration
         /// or
         /// password was not specified
         /// or</exception>
-        public void AddDatabaseSource(string providerReference, string server, string instance, string database, string userId, string password, bool integratedSecurity)
+        public void AddDatabaseSource(string name, string providerReference, string server, string instance, string database, string userId, string password, bool integratedSecurity)
         {
             if (string.IsNullOrEmpty(providerReference))
             {
@@ -158,8 +159,8 @@ namespace Codentia.Common.Data.Configuration
             IDbConnectionProvider provider = (IDbConnectionProvider)Activator.CreateInstance(providerType);
 
             // and add connectionString
-            provider.AddConnectionString(instance, server, database, userId, password, integratedSecurity);
-            _providers.Add(database.ToLower(), provider);
+            provider.AddConnectionString(server, instance, database, userId, password, integratedSecurity);
+            _providers.Add(name, provider);
         }
 
         /// <summary>

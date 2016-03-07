@@ -11,7 +11,7 @@ namespace Codentia.Common.Data
     /// <summary>
     /// Base Database Context object for executing queries and procedures
     /// </summary>
-    public abstract class DbContext
+    public abstract class DbContext : IDisposable
     {
         private string _databaseName;
 
@@ -33,6 +33,14 @@ namespace Codentia.Common.Data
         /// The connection provider.
         /// </value>
         public IDbConnectionProvider ConnectionProvider { get; set; }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            DbConfiguration.Instance.Dispose();
+        }
 
         /// <summary>
         /// Executes the procedure.
