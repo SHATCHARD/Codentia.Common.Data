@@ -23,7 +23,7 @@ namespace Codentia.Common.Data.Test
         {
             switch (server)
             {
-                case "MIDEV01":
+                case "CEDEV01":
                     return "E67F2501-00C6-4AD4-8079-00216831AECC";
                 case "CEDEV1002":                    
                     return "8AC7025B-3AE6-455B-8171-92ACC0028621";

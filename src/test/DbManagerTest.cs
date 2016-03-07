@@ -79,9 +79,9 @@ namespace Codentia.Common.Data.Test
 
             string expectedServer = System.Environment.MachineName;
             string expectedPassword = string.Empty;
-            if (server.Server == "MIDEV01")
+            if (server.Server == "CEDEV01")
             {
-                expectedServer = @"MIDEV01";
+                expectedServer = @"CEDEV01";
                 expectedPassword = "E67F2501-00C6-4AD4-8079-00216831AECC";
             }
 
