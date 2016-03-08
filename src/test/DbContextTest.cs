@@ -16,6 +16,18 @@ namespace Codentia.Common.Data.Test
     [TestFixture]
     public class DbContextTest
     {
+        // TODO: dbinterface tests seem to fail after this; it's like we are leaving a connection open but not sure how
+
+        /// <summary>
+        /// Tests the fixture tear down.
+        /// </summary>
+        [TestFixtureTearDown]
+        public void TestFixtureTearDown()
+        {
+            // ensure context is disposed
+            new TestContext().Dispose();
+        }
+
         /// <summary>
         /// Create a default instance, using config
         /// </summary>
@@ -55,7 +67,20 @@ namespace Codentia.Common.Data.Test
             DataTable dt = context.ProcedureDataTable();
             Assert.That(dt.Rows.Count, Is.EqualTo(1));
 
-            Assert.Fail();
+            DataSet ds = context.ProcedureDataSet();
+            Assert.That(ds.Tables.Count, Is.EqualTo(1));
+            Assert.That(ds.Tables[0].Rows.Count, Is.EqualTo(1));
+
+            string s = context.ProcedureString();
+            Assert.That(s, Is.Not.Null.Or.Empty);
+
+            bool b = context.ProcedureBool();
+            Assert.That(b, Is.True);
+
+            int i = context.ProcedureInt();
+            Assert.That(i, Is.EqualTo(42));
+
+            context.ProcedureNoReturn();
         }
 
         /// <summary>
@@ -64,7 +89,25 @@ namespace Codentia.Common.Data.Test
         [Test]
         public void _004_SqlServer_ExecuteInline()
         {
-            Assert.Fail();
+            TestContext context = new TestContext();
+
+            DataTable dt = context.QueryDataTable();
+            Assert.That(dt.Rows.Count, Is.EqualTo(1));
+
+            DataSet ds = context.QueryDataSet();
+            Assert.That(ds.Tables.Count, Is.EqualTo(1));
+            Assert.That(ds.Tables[0].Rows.Count, Is.EqualTo(1));
+
+            string s = context.QueryString();
+            Assert.That(s, Is.Not.Null.Or.Empty);
+
+            bool b = context.QueryBool();
+            Assert.That(b, Is.True);
+
+            int i = context.QueryInt();
+            Assert.That(i, Is.EqualTo(42));
+
+            context.QueryNoReturn();
         }
     }
 }

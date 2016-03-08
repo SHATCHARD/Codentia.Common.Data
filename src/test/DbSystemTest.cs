@@ -55,15 +55,18 @@ namespace Codentia.Common.Data.Test
             sourceCollMaster[System.Environment.MachineName] = sourceMaster;
 
             DbConfigurationElement databaseTest = new DbConfigurationElement();
-            databaseTest.Name = "test";            
+            databaseTest.Name = "test";
+            databaseTest.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseTest.Sources = sourceCollTest;
 
             DbConfigurationElement databaseTestSys = new DbConfigurationElement();
-            databaseTestSys.Name = "system_test";            
+            databaseTestSys.Name = "system_test";
+            databaseTestSys.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseTestSys.Sources = sourceCollTestSys;
 
             DbConfigurationElement databaseMaster = new DbConfigurationElement();
-            databaseMaster.Name = "master";            
+            databaseMaster.Name = "master";
+            databaseMaster.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseMaster.Sources = sourceCollMaster;
 
             DbConfigurationCollection dbColl = new DbConfigurationCollection();

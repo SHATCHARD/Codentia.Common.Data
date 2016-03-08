@@ -97,20 +97,26 @@ namespace Codentia.Common.Data.Provider
                     result = (T)Convert.ChangeType(toFill, typeof(T));
                 }
 
-                try
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-                catch (Exception ex)
-                {
-                    // TODO: Logging
-                    throw ex;
-                }
+                adapter.Dispose();
             }
             else
             {
                 result = SqlServerConnectionProvider.Execute<T>(connection, command, true).Result;
+            }
+
+            try
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                    command.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Logging
+                throw ex;
             }
 
             return result;
@@ -134,7 +140,7 @@ namespace Codentia.Common.Data.Provider
                     await connection.OpenAsync();
                 }
 
-                if (scalar)
+                if (!scalar)
                 {
                     int taskResult = await command.ExecuteNonQueryAsync().ConfigureAwait(false);
 
@@ -142,9 +148,6 @@ namespace Codentia.Common.Data.Provider
                     {
                         result = (T)Convert.ChangeType(taskResult, typeof(T));
                     }
-
-                    connection.Close();
-                    connection.Dispose();
                 }
                 else
                 {
@@ -251,6 +254,11 @@ namespace Codentia.Common.Data.Provider
         /// </returns>
         private SqlConnection GetConnection()
         {
+            if (string.IsNullOrEmpty(_connectionString))
+            {
+                throw new System.Exception("Cannot call GetConnection before ConnectionString is set.");
+            }
+
             return new SqlConnection(_connectionString);
         }
     }

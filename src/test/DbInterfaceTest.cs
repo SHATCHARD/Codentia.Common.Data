@@ -91,10 +91,12 @@ namespace Codentia.Common.Data.Test
 
             DbConfigurationElement databaseTest = new DbConfigurationElement();
             databaseTest.Name = "test";
+            databaseTest.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseTest.Sources = sourceCollTest;
 
             DbConfigurationElement databaseMaster = new DbConfigurationElement();
             databaseMaster.Name = "master";
+            databaseMaster.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseMaster.Sources = sourceCollMaster;
 
             DbConfigurationCollection dbColl = new DbConfigurationCollection();

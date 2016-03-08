@@ -36,7 +36,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataSet ProcedureDataSet()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteProcedure<DataSet>("TestProc003", null).Result;
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public string ProcedureString()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteProcedure<string>("TestProc_050", null).Result;
         }
 
         /// <summary>
@@ -54,16 +54,16 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public bool ProcedureBool()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteProcedure<bool>("TestProc_051", null).Result;
         }
 
         /// <summary>
         /// Procedures the int.
         /// </summary>
         /// <returns>Test Data</returns>
-        public bool ProcedureInt()
+        public int ProcedureInt()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteProcedure<int>("TestProc_052", null).Result;
         }
 
         /// <summary>
@@ -71,7 +71,12 @@ namespace Codentia.Common.Data.Test.Context
         /// </summary>
         public void ProcedureNoReturn()
         {
-            throw new System.NotImplementedException();
+            DbParameter[] parameters = new DbParameter[]
+            {
+                new DbParameter("param1", DbType.Boolean, ParameterDirection.Output, false)
+            };
+
+            this.ExecuteProcedure<DBNull>("TestProc_010", parameters);
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataTable QueryDataTable()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteQuery<DataTable>("SELECT 1, 2, 3", null).Result;
         }
 
         /// <summary>
@@ -89,7 +94,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataSet QueryDataSet()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteQuery<DataSet>("SELECT 1, 2, 3", null).Result;
         }
 
         /// <summary>
@@ -98,7 +103,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public string QueryString()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteQuery<string>("SELECT 'test'", null).Result;
         }
 
         /// <summary>
@@ -107,16 +112,16 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public bool QueryBool()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteQuery<bool>("SELECT 1", null).Result;
         }
 
         /// <summary>
         /// Queries the int.
         /// </summary>
         /// <returns>Test Data</returns>
-        public bool QueryInt()
+        public int QueryInt()
         {
-            throw new System.NotImplementedException();
+            return this.ExecuteQuery<int>("SELECT 42", null).Result;
         }
 
         /// <summary>
@@ -124,7 +129,7 @@ namespace Codentia.Common.Data.Test.Context
         /// </summary>
         public void QueryNoReturn()
         {
-            throw new System.NotImplementedException();
+            this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = Column 1", null);
         }
     }
 }

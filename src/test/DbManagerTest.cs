@@ -63,7 +63,8 @@ namespace Codentia.Common.Data.Test
             serverColl["Default"] = server;
 
             DbConfigurationElement database = new DbConfigurationElement();
-            database.Name = "test";            
+            database.Name = "test";
+            database.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             database.Sources = serverColl;
 
             DbConfigurationCollection dbColl = new DbConfigurationCollection();
