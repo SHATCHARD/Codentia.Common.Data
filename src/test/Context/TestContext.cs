@@ -14,10 +14,11 @@ namespace Codentia.Common.Data.Test.Context
     public class TestContext : DbContext
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TestContext"/> class.
+        /// Initializes a new instance of the <see cref="TestContext" /> class.
         /// </summary>
-        public TestContext() 
-            : base("test")
+        /// <param name="dbName">Name of the database.</param>
+        public TestContext(string dbName) 
+            : base(dbName)
         {
         }
 

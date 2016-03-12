@@ -25,8 +25,6 @@ namespace Codentia.Common.Data.Test
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
-            // ensure context is disposed
-            new TestContext().Dispose();
         }
 
         /// <summary>
@@ -35,7 +33,7 @@ namespace Codentia.Common.Data.Test
         [Test]
         public void _001_Create_FromConfig()
         {
-            TestContext context = new TestContext();
+            TestContext context = new TestContext("test");
             Assert.That(context.ConnectionProvider, Is.Not.Null);
             Assert.That(context.ConnectionProvider, Is.InstanceOf<SqlServerConnectionProvider>());
         }
@@ -49,7 +47,7 @@ namespace Codentia.Common.Data.Test
             SqlServerConnectionProvider provider = new SqlServerConnectionProvider();
             provider.AddConnectionString(".", string.Empty, "CECommonData", string.Empty, string.Empty, true);
 
-            TestContext context = new TestContext();
+            TestContext context = new TestContext("test");
             context.ConnectionProvider = provider;
             Assert.That(context.ConnectionProvider, Is.EqualTo(provider));
 
@@ -63,7 +61,7 @@ namespace Codentia.Common.Data.Test
         [Test]
         public void _003_SqlServer_ExecuteProcedure()
         {
-            TestContext context = new TestContext();
+            TestContext context = new TestContext("test");
 
             DataTable dt = context.ProcedureDataTable();
             Assert.That(dt.Rows.Count, Is.EqualTo(1));
@@ -90,7 +88,61 @@ namespace Codentia.Common.Data.Test
         [Test]
         public void _004_SqlServer_ExecuteInline()
         {
-            TestContext context = new TestContext();
+            TestContext context = new TestContext("test");
+
+            DataTable dt = context.QueryDataTable();
+            Assert.That(dt.Rows.Count, Is.EqualTo(1));
+
+            DataSet ds = context.QueryDataSet();
+            Assert.That(ds.Tables.Count, Is.EqualTo(1));
+            Assert.That(ds.Tables[0].Rows.Count, Is.EqualTo(1));
+
+            string s = context.QueryString();
+            Assert.That(s, Is.Not.Null.Or.Empty);
+
+            bool b = context.QueryBool();
+            Assert.That(b, Is.True);
+
+            int i = context.QueryInt();
+            Assert.That(i, Is.EqualTo(42));
+
+            context.QueryNoReturn();
+        }
+
+        /// <summary>
+        /// Execute a stored procedure (for various return types) against MySql
+        /// </summary>
+        [Test]
+        public void _005_MySql_ExecuteProcedure()
+        {
+            TestContext context = new TestContext("test_mysql");
+
+            DataTable dt = context.ProcedureDataTable();
+            Assert.That(dt.Rows.Count, Is.EqualTo(1));
+
+            DataSet ds = context.ProcedureDataSet();
+            Assert.That(ds.Tables.Count, Is.EqualTo(1));
+            Assert.That(ds.Tables[0].Rows.Count, Is.EqualTo(1));
+
+            string s = context.ProcedureString();
+            Assert.That(s, Is.Not.Null.Or.Empty);
+
+            bool b = context.ProcedureBool();
+            Assert.That(b, Is.True);
+
+            int i = context.ProcedureInt();
+            Assert.That(i, Is.EqualTo(42));
+
+            context.ProcedureNoReturn();
+        }
+
+        /// <summary>
+        /// Execute a simple query (various return types) against MySql
+        /// </summary>
+        [Test]
+        public void _006_MySql_ExecuteInline()
+        {
+            TestContext context = new TestContext("test_mysql");
 
             DataTable dt = context.QueryDataTable();
             Assert.That(dt.Rows.Count, Is.EqualTo(1));
