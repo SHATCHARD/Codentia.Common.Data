@@ -14,9 +14,10 @@ namespace Codentia.Common.Data.Test
     /// Unit Tests for DbContext base object
     /// </summary>
     [TestFixture]
-    public class DbContextTest
+    public class zDbContextTest
     {
-        // TODO: dbinterface tests seem to fail after this; it's like we are leaving a connection open but not sure how
+        // TODO: DbInterface tests fail if run immediately after this, so add a 'z' to the name for the moment
+        // Believe this is just because the setup is done in DbInterface and when we remove that it'll be OK
 
         /// <summary>
         /// Tests the fixture tear down.
