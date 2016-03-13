@@ -13,7 +13,8 @@ namespace Codentia.Common.Data.Provider
     /// </summary>
     public class MySqlConnectionProvider : IDbConnectionProvider
     {
-        private const string ConnectionStringNoInstance = @"Server={0};Database={1};Uid={2};Pwd={3};";
+        private const string ConnectionStringDatabase = @"Server={0};Database={1};Uid={2};Pwd={3};";
+        private const string ConnectionStringNoDatabase = @"Server={0};Uid={2};Pwd={3};";
 
         private string _connectionString;
 
@@ -28,7 +29,8 @@ namespace Codentia.Common.Data.Provider
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
         public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity)
         {
-            _connectionString = string.Format(MySqlConnectionProvider.ConnectionStringNoInstance, server, database, userId, password);
+            string connectionStringTemplate = string.IsNullOrEmpty(database) ? MySqlConnectionProvider.ConnectionStringNoDatabase : MySqlConnectionProvider.ConnectionStringDatabase;
+            _connectionString = string.Format(connectionStringTemplate, server, database, userId, password);
         }
 
         /// <summary>

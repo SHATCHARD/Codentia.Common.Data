@@ -20,6 +20,19 @@ namespace Codentia.Common.Data.Test
         // Believe this is just because the setup is done in DbInterface and when we remove that it'll be OK
 
         /// <summary>
+        /// Tests the fixture set up.
+        /// </summary>
+        [TestFixtureSetUp]
+        public void TestFixtureSetUp()
+        {
+            TestContext sqlServer = new TestContext("master");
+            sqlServer.PrimeTestDatabase(@"SQL\SqlServer\RecreateTestDb.sql");
+
+            TestContext mySql = new TestContext("master_mysql");
+            mySql.PrimeTestDatabase(@"SQL\MySQL\RecreateTestDb.sql");
+        }
+
+        /// <summary>
         /// Tests the fixture tear down.
         /// </summary>
         [TestFixtureTearDown]

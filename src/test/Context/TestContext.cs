@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Codentia.Common.Data;
+using Codentia.Common.Data.Provider;
 
 namespace Codentia.Common.Data.Test.Context
 {
@@ -131,6 +133,22 @@ namespace Codentia.Common.Data.Test.Context
         public void QueryNoReturn()
         {
             this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = Column 1", null);
+        }
+
+        /// <summary>
+        /// Primes the test database.
+        /// </summary>
+        /// <param name="filename">The filename.</param>
+        public void PrimeTestDatabase(string filename)
+        {
+            string text = System.IO.File.ReadAllText(filename);
+
+            string[] commands = Regex.Split(text, @"\r\n\r\n");
+
+            foreach (string command in commands)
+            {
+                this.ExecuteQuery<DBNull>(command, null);
+            }
         }
     }
 }

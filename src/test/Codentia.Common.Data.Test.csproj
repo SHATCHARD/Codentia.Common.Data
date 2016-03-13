@@ -70,10 +70,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SQL\RecreateTestDb.sql">
+    <None Include="SQL\SqlServer\RecreateTestDb.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SQL\RecreateTestDbSys.sql">
+    <None Include="SQL\SqlServer\RecreateTestDbSys.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -83,7 +83,11 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="SQL\MySQL\RecreateTestDb.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.Targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
