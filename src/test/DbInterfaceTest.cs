@@ -115,7 +115,7 @@ namespace Codentia.Common.Data.Test
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
 
-            string text = System.IO.File.ReadAllText(@"SQL\RecreateTestDb.sql");
+            string text = System.IO.File.ReadAllText(@"SQL\SqlServer\RecreateTestDb.sql");
 
             // string[] commands = text.Split("GO".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
             string[] commands = Regex.Split(text, @"GO");
