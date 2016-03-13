@@ -97,8 +97,6 @@ namespace Codentia.Common.Data.Configuration
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
         /// <exception cref="System.Exception">providerReference was not specified
         /// or
-        /// database was not specified
-        /// or
         /// userId cannot be specified for Integrated Security
         /// or
         /// password cannot be specified for Integrated Security
@@ -117,11 +115,6 @@ namespace Codentia.Common.Data.Configuration
             if (string.IsNullOrEmpty(server))
             {
                 throw new Exception("server was not specified");
-            }
-
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new Exception("database was not specified");
             }
 
             if (integratedSecurity)
