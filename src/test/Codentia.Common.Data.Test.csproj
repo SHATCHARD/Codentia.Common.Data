@@ -41,6 +41,10 @@
     <Reference Include="Codentia.Common.Types">
       <HintPath>..\..\packages\Codentia.Common.Types.dll.2.0.0-dev-20160216094650\lib\Codentia.Common.Types.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
@@ -70,7 +74,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SQL\SqlServer\RecreateTestDb.sql">
+    <None Include="app.config" />
+    <None Include="SQL\SqlServer\CreateTestDb.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SQL\SqlServer\RecreateTestDbSys.sql">
@@ -80,11 +85,22 @@
   <ItemGroup>
     <None Include="Codentia.Common.Data.Test.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SQL\MySQL\RecreateTestDb.sql">
+    <None Include="SQL\MySQL\CreateTestDb.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SQL\SqlServer\DropTestDb.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SQL\MySQL\DropTestDb.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

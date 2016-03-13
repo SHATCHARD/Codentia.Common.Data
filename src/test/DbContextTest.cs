@@ -25,11 +25,17 @@ namespace Codentia.Common.Data.Test
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
-            TestContext sqlServer = new TestContext("master");
-            sqlServer.PrimeTestDatabase(@"SQL\SqlServer\RecreateTestDb.sql");
+            TestContext sqlServerMaster = new TestContext("master");
+            sqlServerMaster.PrimeTestDatabase(@"SQL\SqlServer\DropTestDb.sql");
 
-            TestContext mySql = new TestContext("master_mysql");
-            mySql.PrimeTestDatabase(@"SQL\MySQL\RecreateTestDb.sql");
+            TestContext sqlServerDb = new TestContext("test");
+            sqlServerDb.PrimeTestDatabase(@"SQL\SqlServer\CreateTestDb.sql");
+
+            TestContext mySqlMaster = new TestContext("master_mysql");
+            mySqlMaster.PrimeTestDatabase(@"SQL\MySQL\DropTestDb.sql");
+
+            TestContext mySqlDb = new TestContext("test_mysql");
+            mySqlDb.PrimeTestDatabase(@"SQL\MySQL\CreateTestDb.sql");
         }
 
         /// <summary>
@@ -80,7 +86,7 @@ namespace Codentia.Common.Data.Test
             Assert.That(dt.Rows.Count, Is.EqualTo(1));
 
             DataSet ds = context.ProcedureDataSet();
-            Assert.That(ds.Tables.Count, Is.EqualTo(1));
+            Assert.That(ds.Tables.Count, Is.EqualTo(2));
             Assert.That(ds.Tables[0].Rows.Count, Is.EqualTo(1));
 
             string s = context.ProcedureString();
@@ -134,7 +140,7 @@ namespace Codentia.Common.Data.Test
             Assert.That(dt.Rows.Count, Is.EqualTo(1));
 
             DataSet ds = context.ProcedureDataSet();
-            Assert.That(ds.Tables.Count, Is.EqualTo(1));
+            Assert.That(ds.Tables.Count, Is.EqualTo(2));
             Assert.That(ds.Tables[0].Rows.Count, Is.EqualTo(1));
 
             string s = context.ProcedureString();

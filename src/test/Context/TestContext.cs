@@ -39,7 +39,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataSet ProcedureDataSet()
         {
-            return this.ExecuteProcedure<DataSet>("TestProc003", null).Result;
+            return this.ExecuteProcedure<DataSet>("TestProc005", null).Result;
         }
 
         /// <summary>
@@ -143,7 +143,8 @@ namespace Codentia.Common.Data.Test.Context
         {
             string text = System.IO.File.ReadAllText(filename);
 
-            string[] commands = Regex.Split(text, @"\r\n\r\n");
+            string splitter = text.IndexOf("GO\n") == -1 ? "~~" : "GO";
+            string[] commands = Regex.Split(text, splitter);
 
             foreach (string command in commands)
             {

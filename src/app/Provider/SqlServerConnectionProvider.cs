@@ -83,7 +83,7 @@ namespace Codentia.Common.Data.Provider
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
                 int outcome = await SqlServerConnectionProvider.Execute<int>(connection, command, false).ConfigureAwait(false);
-
+                
                 DataSet toFill = new DataSet();
                 SqlDataAdapter adapter = new SqlDataAdapter(command);
                 adapter.Fill(toFill);
@@ -101,23 +101,19 @@ namespace Codentia.Common.Data.Provider
             }
             else
             {
-                result = SqlServerConnectionProvider.Execute<T>(connection, command, true).Result;
+                result = await SqlServerConnectionProvider.Execute<T>(connection, command, true).ConfigureAwait(false);
+                /*
+                Task<T> task = SqlServerConnectionProvider.Execute<T>(connection, command, true);
+
+                if (task.Exception != null)
+                {
+                    throw task.Exception;
+                }
+
+                result = task.Result;*/
             }
 
-            try
-            {
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                    command.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO: Logging
-                throw ex;
-            }
+            this.CloseConnection(connection);
 
             return result;
         }
@@ -170,7 +166,7 @@ namespace Codentia.Common.Data.Provider
             }
 
             return result;
-        }
+        }        
 
         /// <summary>
         /// Imports the parameters.
@@ -260,6 +256,27 @@ namespace Codentia.Common.Data.Provider
             }
 
             return new SqlConnection(_connectionString);
+        }
+
+        /// <summary>
+        /// Closes the connection.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
+        private void CloseConnection(SqlConnection connection)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Logging
+                throw ex;
+            }
         }
     }
 }
