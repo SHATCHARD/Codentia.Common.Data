@@ -4,6 +4,7 @@ using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 using Codentia.Common.Data;
+using Codentia.Common.Data.Configuration;
 using Codentia.Common.Data.Provider;
 using NUnit.Framework;
 using TestContext = Codentia.Common.Data.Test.Context.TestContext;
@@ -14,17 +15,88 @@ namespace Codentia.Common.Data.Test
     /// Unit Tests for DbContext base object
     /// </summary>
     [TestFixture]
-    public class zDbContextTest
+    public class DbContextTest
     {
-        // TODO: DbInterface tests fail if run immediately after this, so add a 'z' to the name for the moment
-        // Believe this is just because the setup is done in DbInterface and when we remove that it'll be OK
-
         /// <summary>
         /// Tests the fixture set up.
         /// </summary>
         [TestFixtureSetUp]
         public void TestFixtureSetUp()
         {
+            // prepare test config
+            SourceConfigurationElement sourceTest = new SourceConfigurationElement();
+            sourceTest.RunAt = System.Environment.MachineName;
+            sourceTest.Server = System.Environment.MachineName;
+            sourceTest.Instance = DbInterfaceTest.GetTestInstance(System.Environment.MachineName);
+            sourceTest.Database = "CECommonData";
+            sourceTest.User = "adminuser";
+            sourceTest.Password = DbInterfaceTest.GetTestPassword(sourceTest.RunAt);
+
+            SourceConfigurationElement sourceTestMySql = new SourceConfigurationElement();
+            sourceTestMySql.RunAt = System.Environment.MachineName;
+            sourceTestMySql.Server = System.Environment.MachineName;
+            sourceTestMySql.Database = "cecommondata";
+            sourceTestMySql.User = "adminuser";
+            sourceTestMySql.Password = DbInterfaceTest.GetTestPassword(sourceTest.RunAt);
+
+            SourceConfigurationElement sourceMaster = new SourceConfigurationElement();
+            sourceMaster.RunAt = System.Environment.MachineName;
+            sourceMaster.Server = System.Environment.MachineName;
+            sourceMaster.Instance = DbInterfaceTest.GetTestInstance(System.Environment.MachineName);
+            sourceMaster.Database = "master";
+            sourceMaster.User = "adminuser";
+            sourceMaster.Password = DbInterfaceTest.GetTestPassword(sourceMaster.RunAt);
+
+            SourceConfigurationElement sourceMasterMySql = new SourceConfigurationElement();
+            sourceMasterMySql.RunAt = System.Environment.MachineName;
+            sourceMasterMySql.Server = System.Environment.MachineName;
+            sourceMasterMySql.User = "adminuser";
+            sourceMasterMySql.Password = DbInterfaceTest.GetTestPassword(sourceMaster.RunAt);
+
+            SourceConfigurationCollection sourceCollTest = new SourceConfigurationCollection();
+            sourceCollTest[System.Environment.MachineName] = sourceTest;
+
+            SourceConfigurationCollection sourceCollTestMySql = new SourceConfigurationCollection();
+            sourceCollTestMySql[System.Environment.MachineName] = sourceTestMySql;
+
+            SourceConfigurationCollection sourceCollMaster = new SourceConfigurationCollection();
+            sourceCollMaster[System.Environment.MachineName] = sourceMaster;
+
+            SourceConfigurationCollection sourceCollMasterMySql = new SourceConfigurationCollection();
+            sourceCollMasterMySql[System.Environment.MachineName] = sourceMasterMySql;
+
+            DbConfigurationElement databaseTest = new DbConfigurationElement();
+            databaseTest.Name = "test";
+            databaseTest.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
+            databaseTest.Sources = sourceCollTest;
+
+            DbConfigurationElement databaseTestMySql = new DbConfigurationElement();
+            databaseTestMySql.Name = "test_mysql";
+            databaseTestMySql.Provider = "Codentia.Common.Data.Provider.MySqlConnectionProvider,Codentia.Common.Data";
+            databaseTestMySql.Sources = sourceCollTestMySql;
+
+            DbConfigurationElement databaseMaster = new DbConfigurationElement();
+            databaseMaster.Name = "master";
+            databaseMaster.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
+            databaseMaster.Sources = sourceCollMaster;
+
+            DbConfigurationElement databaseMasterMySql = new DbConfigurationElement();
+            databaseMasterMySql.Name = "master_mysql";
+            databaseMasterMySql.Provider = "Codentia.Common.Data.Provider.MySqlConnectionProvider,Codentia.Common.Data";
+            databaseMasterMySql.Sources = sourceCollMasterMySql;
+
+            DbConfigurationCollection dbColl = new DbConfigurationCollection();
+            dbColl[0] = databaseTest;
+            dbColl[1] = databaseMaster;
+            dbColl[2] = databaseTestMySql;
+            dbColl[3] = databaseMasterMySql;
+
+            DbConnectionConfiguration newDbConfig = new DbConnectionConfiguration();
+            newDbConfig.Databases = dbColl;
+
+            DbManagerTest.UpdateConfigurationFile(newDbConfig);
+            
+            // now use test context object to (re)build databases
             TestContext sqlServerMaster = new TestContext("master");
             sqlServerMaster.PrimeTestDatabase(@"SQL\SqlServer\DropTestDb.sql");
 

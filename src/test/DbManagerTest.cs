@@ -237,16 +237,6 @@ namespace Codentia.Common.Data.Test
         /// Expected: Exception
         /// </summary>
         [Test]
-        public void _006_AddDatabaseSource_InvalidDatabase()
-        {
-            Assert.That(delegate { DbManager.Instance.AddDatabaseSource("Test007", null, null, null, null); }, Throws.Exception.With.Message.EqualTo("database was not specified"));                                  
-        }
-
-        /// <summary>
-        /// Scenario: Method called with invalid value
-        /// Expected: Exception
-        /// </summary>
-        [Test]
         public void _007_AddDatabaseSource_InvalidUserId()
         {
             Assert.That(delegate { DbManager.Instance.AddDatabaseSource("Test007", null, "CECommonData", null, null); }, Throws.Exception.With.Message.EqualTo("userId was not specified"));                                  

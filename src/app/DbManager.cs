@@ -178,11 +178,6 @@ namespace Codentia.Common.Data
                 throw new Exception("databaseName was not specified");
             }
 
-            if (string.IsNullOrEmpty(database))
-            {
-                throw new Exception("database was not specified");
-            }
-
             if (string.IsNullOrEmpty(userId))
             {
                 throw new Exception("userId was not specified");

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -57,7 +56,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public bool ProcedureBool()
         {
-            return this.ExecuteProcedure<bool>("TestProc_051", null).Result;
+            return ExecuteProcedure<bool>("TestProc_051", null).Result;
         }
 
         /// <summary>
@@ -79,7 +78,7 @@ namespace Codentia.Common.Data.Test.Context
                 new DbParameter("param1", DbType.Boolean, ParameterDirection.Output, false)
             };
 
-            this.ExecuteProcedure<DBNull>("TestProc_010", parameters);
+            this.ExecuteProcedure<DBNull>("TestProc_010", parameters).Wait();
         }
 
         /// <summary>
@@ -132,7 +131,7 @@ namespace Codentia.Common.Data.Test.Context
         /// </summary>
         public void QueryNoReturn()
         {
-            this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = Column 1", null);
+            this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = Column 1", null).Wait();
         }
 
         /// <summary>
@@ -148,7 +147,7 @@ namespace Codentia.Common.Data.Test.Context
 
             foreach (string command in commands)
             {
-                this.ExecuteQuery<DBNull>(command, null);
+                this.ExecuteQuery<DBNull>(command, null).Wait();
             }
         }
     }

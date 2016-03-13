@@ -1,3 +1,6 @@
+USE CECommonData
+GO
+
 CREATE PROCEDURE dbo.TestProc001
 AS
 BEGIN

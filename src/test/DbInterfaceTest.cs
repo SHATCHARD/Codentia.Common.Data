@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Codentia.Common.Data.Configuration;
 using NUnit.Framework;
+using TestContext = Codentia.Common.Data.Test.Context.TestContext;
 
 namespace Codentia.Common.Data.Test
 {
@@ -107,38 +108,13 @@ namespace Codentia.Common.Data.Test
             newDbConfig.Databases = dbColl;
 
             DbManagerTest.UpdateConfigurationFile(newDbConfig);
+           
+            // use DbContext to set up a fresh database
+            TestContext sqlServerMaster = new TestContext("master");
+            sqlServerMaster.PrimeTestDatabase(@"SQL\SqlServer\DropTestDb.sql");
 
-            // build our initial test config section
-            string connectionString = DbManager.Instance.GetConnectionString("master");
-
-            // now execute the test sql against it
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-
-            string text = System.IO.File.ReadAllText(@"SQL\SqlServer\RecreateTestDb.sql");
-
-            // string[] commands = text.Split("GO".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            string[] commands = Regex.Split(text, @"GO");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = connection;
-
-            for (int i = 0; i < commands.Length; i++)
-            {
-                commands[i] = commands[i].Trim();
-
-                if (!string.IsNullOrEmpty(commands[i]))
-                {
-                    Console.Out.WriteLine(string.Format("TestFixtureSetup - running command: {0}", commands[i]));
-
-                    cmd.CommandText = commands[i];
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            connection.Close();
-            connection.Dispose();
-            cmd.Dispose();
+            TestContext sqlServerDb = new TestContext("test");
+            sqlServerDb.PrimeTestDatabase(@"SQL\SqlServer\CreateTestDb.sql");
         }
 
         /// <summary>
