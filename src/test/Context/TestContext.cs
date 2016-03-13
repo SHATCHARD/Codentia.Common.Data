@@ -142,7 +142,7 @@ namespace Codentia.Common.Data.Test.Context
         {
             string text = System.IO.File.ReadAllText(filename);
 
-            string splitter = text.IndexOf("GO\n") == -1 ? "~~" : "GO";
+            string splitter = text.IndexOf("GO\n") == -1 ? "~~" : "GO\n";
             string[] commands = Regex.Split(text, splitter);
 
             foreach (string command in commands)
@@ -151,7 +151,8 @@ namespace Codentia.Common.Data.Test.Context
 
                 if (!string.IsNullOrEmpty(commandText))
                 {
-                    this.ExecuteQuery<DBNull>(commandText, null).Wait();
+                    Console.Out.WriteLine(command);
+                    this.ExecuteQuery<DBNull>(command, null).Wait();
                 }
             }
         }
