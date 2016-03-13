@@ -2,10 +2,12 @@ use master
 GO
 
 if exists ( select 1 from sysdatabases where name = 'CECommonDataSys' )
+		ALTER DATABASE CECommonDataSys SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 	drop database CECommonDataSys
 GO
 
 if exists ( select 1 from sysdatabases where name = 'CECommonDataSys_CreateDB' )
+		ALTER DATABASE CECommonDataSys_CreateDB SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 	drop database CECommonDataSys_CreateDB
 GO
 
