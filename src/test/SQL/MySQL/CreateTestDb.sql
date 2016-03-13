@@ -1,44 +1,34 @@
-DROP DATABASE IF EXISTS cecommondata;
-~~
-CREATE DATABASE cecommondata;
-~~
-USE cecommondata;
-~~
-DELIMITER //
-~~
 CREATE PROCEDURE TestProc001()
 BEGIN
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc002(IN param1 INT)
 BEGIN
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc003()
 BEGIN
 	SELECT 1, 2, 3;
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc004(IN param2 INT)
 BEGIN	
 	SELECT @Param2, @Param2 * 2, @Param2 * 3;
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc005()	
 BEGIN
 	SELECT 1, 2, 3;
 
 	SELECT 1, 2, 3;
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc006(IN Param3 INT)
 BEGIN
 	SELECT @Param3, @Param3 * 2, @Param3 * 3;
 
 	SELECT @Param3, @Param3 * 2, @Param3 * 3;
-END//
-~~
-DELIMITER ;
+END;
 ~~
 CREATE TABLE Table001
 (
@@ -47,12 +37,10 @@ CREATE TABLE Table001
 
 INSERT INTO Table001 (Column1) VALUES (1);
 ~~
-DELIMITER //
-~~
 CREATE PROCEDURE TestProc007()
 BEGIN
 	UPDATE Table001 SET Column1 = 10;
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc008 (
 	IN int16 INT,
@@ -69,27 +57,27 @@ CREATE PROCEDURE TestProc008 (
 	IN money DECIMAL,
 	IN byt TINYINT(1))
 BEGIN
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc010 (OUT param1 BIT)
 BEGIN
 	SET @param1 = 1;
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc_046 (OUT param1 VARCHAR(10))
 BEGIN
 	SET @param1 = '0123456789';
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc_050()
 BEGIN
 	SELECT 'TestProc_050';
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc_051()
 BEGIN
 	SELECT 1;
-END//
+END;
 ~~
 CREATE PROCEDURE TestProc_052()
 BEGIN
