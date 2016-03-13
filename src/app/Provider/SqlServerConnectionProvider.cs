@@ -101,7 +101,7 @@ namespace Codentia.Common.Data.Provider
             }
             else
             {
-                result = await SqlServerConnectionProvider.Execute<T>(connection, command, true).ConfigureAwait(false);
+                result = await SqlServerConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).ConfigureAwait(false);
             }
 
             this.CloseConnection(connection);
@@ -119,9 +119,6 @@ namespace Codentia.Common.Data.Provider
         /// <returns>Results of procedure execution</returns>
         private static async Task<T> Execute<T>(SqlConnection connection, SqlCommand command, bool scalar)
         {
-            Console.Out.WriteLine("Executing..");
-            Console.Out.WriteLine(command.CommandText);
-
             T result = default(T);
             try
             {
@@ -155,13 +152,10 @@ namespace Codentia.Common.Data.Provider
             }
             catch (Exception ex)
             {
-                Console.Out.WriteLine(ex.Message);
-
                 // TODO: Logging
                 throw ex;
             }
 
-            Console.Out.WriteLine("Complete");
             return result;
         }        
 

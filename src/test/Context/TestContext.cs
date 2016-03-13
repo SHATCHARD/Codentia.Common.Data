@@ -78,7 +78,7 @@ namespace Codentia.Common.Data.Test.Context
                 new DbParameter("param1", DbType.Boolean, ParameterDirection.Output, false)
             };
 
-            this.ExecuteProcedure<DBNull>("TestProc_010", parameters).Wait();
+            this.ExecuteProcedure<DBNull>("TestProc010", parameters).Wait();
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Codentia.Common.Data.Test.Context
         /// </summary>
         public void QueryNoReturn()
         {
-            this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = Column 1", null).Wait();
+            this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = 1", null).Wait();
         }
 
         /// <summary>
@@ -147,7 +147,12 @@ namespace Codentia.Common.Data.Test.Context
 
             foreach (string command in commands)
             {
-                this.ExecuteQuery<DBNull>(command, null).Wait();
+                string commandText = command.Trim();
+
+                if (!string.IsNullOrEmpty(commandText))
+                {
+                    this.ExecuteQuery<DBNull>(commandText, null).Wait();
+                }
             }
         }
     }

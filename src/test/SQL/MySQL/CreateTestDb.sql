@@ -13,7 +13,7 @@ END;
 ~~
 CREATE PROCEDURE TestProc004(IN param2 INT)
 BEGIN	
-	SELECT @Param2, @Param2 * 2, @Param2 * 3;
+	SELECT Param2, Param2 * 2, Param2 * 3;
 END;
 ~~
 CREATE PROCEDURE TestProc005()	
@@ -25,9 +25,9 @@ END;
 ~~
 CREATE PROCEDURE TestProc006(IN Param3 INT)
 BEGIN
-	SELECT @Param3, @Param3 * 2, @Param3 * 3;
+	SELECT Param3, Param3 * 2, Param3 * 3;
 
-	SELECT @Param3, @Param3 * 2, @Param3 * 3;
+	SELECT Param3, Param3 * 2, Param3 * 3;
 END;
 ~~
 CREATE TABLE Table001
@@ -61,12 +61,12 @@ END;
 ~~
 CREATE PROCEDURE TestProc010 (OUT param1 BIT)
 BEGIN
-	SET @param1 = 1;
+	SET param1 = 1;
 END;
 ~~
 CREATE PROCEDURE TestProc_046 (OUT param1 VARCHAR(10))
 BEGIN
-	SET @param1 = '0123456789';
+	SET param1 = '0123456789';
 END;
 ~~
 CREATE PROCEDURE TestProc_050()

@@ -76,7 +76,7 @@ namespace Codentia.Common.Data.Provider
             }
             else
             {
-                result = MySqlConnectionProvider.Execute<T>(connection, command, true).Result;
+                result = MySqlConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).Result;
             }
 
             try
