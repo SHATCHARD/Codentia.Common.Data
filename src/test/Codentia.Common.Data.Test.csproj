@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Caching\DataCacheTest.cs" />
     <Compile Include="Configuration\DbConfigurationCollectionTest.cs" />
+    <Compile Include="Configuration\DbConfigurationTest.cs" />
     <Compile Include="Configuration\SourceConfigurationCollectionTest.cs" />
     <Compile Include="Context\TestContext.cs" />
     <Compile Include="DbContextTest.cs" />

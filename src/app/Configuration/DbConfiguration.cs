@@ -41,21 +41,8 @@ namespace Codentia.Common.Data.Configuration
                         if (configuration.Databases[i].Sources[System.Environment.MachineName] != null)
                         {
                             sourceConfig = configuration.Databases[i].Sources[System.Environment.MachineName];
+                            this.AddDatabaseSource(configuration.Databases[i].Name.ToLower(), configuration.Databases[i].Provider, sourceConfig.Server, sourceConfig.Instance, sourceConfig.Database, sourceConfig.User, sourceConfig.Password, sourceConfig.IntegratedSecurity);
                         }
-                        else
-                        {
-                            if (configuration.Databases[i].Sources["DEFAULT"] != null)
-                            {
-                                sourceConfig = configuration.Databases[i].Sources["DEFAULT"];
-                            }
-                        }
-
-                        if (sourceConfig == null)
-                        {
-                            throw new Exception(string.Format("Unable to load configuration for Db={0}, Server={1}", configuration.Databases[i].Name, System.Environment.MachineName));
-                        }
-
-                        this.AddDatabaseSource(configuration.Databases[i].Name.ToLower(), configuration.Databases[i].Provider, sourceConfig.Server, sourceConfig.Instance, sourceConfig.Database, sourceConfig.User, sourceConfig.Password, sourceConfig.IntegratedSecurity.ToLower() == "true");
                     }
                 }
             }
@@ -142,9 +129,9 @@ namespace Codentia.Common.Data.Configuration
                 }
             }
 
-            if (this.DatabaseSourceExists(database))
+            if (this.DatabaseSourceExists(name))
             {
-                throw new Exception(string.Format("A connection has already been registered for {0}", database));
+                throw new Exception(string.Format("A connection has already been registered for {0}", name));
             }
 
             // attempt to load provider
@@ -153,7 +140,7 @@ namespace Codentia.Common.Data.Configuration
 
             // and add connectionString
             provider.AddConnectionString(server, instance, database, userId, password, integratedSecurity);
-            _providers.Add(name, provider);
+            _providers.Add(name.ToLower(), provider);
         }
 
         /// <summary>

@@ -129,17 +129,17 @@ namespace Codentia.Common.Data.Configuration
         }
 
         /// <summary>
-        /// Gets or sets the integrated security.
+        /// Gets or sets a value indicating whether {CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}[integrated security].
         /// </summary>
         /// <value>
-        /// The integrated security.
+        /// {D255958A-8513-4226-94B9-080D98F904A1}  <c>true</c> if [integrated security]; otherwise, <c>false</c>.
         /// </value>
         [ConfigurationProperty("integratedsecurity", IsRequired = false)]
-        public string IntegratedSecurity
+        public bool IntegratedSecurity
         {
             get
             {
-                return Convert.ToString(this["integratedsecurity"]);
+                return Convert.ToBoolean(this["integratedsecurity"]);
             }
 
             set

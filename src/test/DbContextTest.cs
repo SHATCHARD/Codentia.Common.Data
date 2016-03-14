@@ -31,6 +31,7 @@ namespace Codentia.Common.Data.Test
             sourceTest.Database = "CECommonData";
             sourceTest.User = "adminuser";
             sourceTest.Password = DbInterfaceTest.GetTestPassword(sourceTest.RunAt);
+            sourceTest.IntegratedSecurity = false;
 
             SourceConfigurationElement sourceTestMySql = new SourceConfigurationElement();
             sourceTestMySql.RunAt = System.Environment.MachineName;
@@ -38,6 +39,7 @@ namespace Codentia.Common.Data.Test
             sourceTestMySql.Database = "cecommondata";
             sourceTestMySql.User = "adminuser";
             sourceTestMySql.Password = DbInterfaceTest.GetTestPassword(sourceTest.RunAt);
+            sourceTestMySql.IntegratedSecurity = false;
 
             SourceConfigurationElement sourceMaster = new SourceConfigurationElement();
             sourceMaster.RunAt = System.Environment.MachineName;
@@ -46,12 +48,14 @@ namespace Codentia.Common.Data.Test
             sourceMaster.Database = "master";
             sourceMaster.User = "adminuser";
             sourceMaster.Password = DbInterfaceTest.GetTestPassword(sourceMaster.RunAt);
+            sourceMaster.IntegratedSecurity = false;
 
             SourceConfigurationElement sourceMasterMySql = new SourceConfigurationElement();
             sourceMasterMySql.RunAt = System.Environment.MachineName;
             sourceMasterMySql.Server = System.Environment.MachineName;
             sourceMasterMySql.User = "adminuser";
             sourceMasterMySql.Password = DbInterfaceTest.GetTestPassword(sourceMaster.RunAt);
+            sourceMasterMySql.IntegratedSecurity = false;
 
             SourceConfigurationCollection sourceCollTest = new SourceConfigurationCollection();
             sourceCollTest[System.Environment.MachineName] = sourceTest;
@@ -116,6 +120,7 @@ namespace Codentia.Common.Data.Test
         [TestFixtureTearDown]
         public void TestFixtureTearDown()
         {
+            new TestContext("test").Dispose();
         }
 
         /// <summary>
