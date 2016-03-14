@@ -142,7 +142,7 @@ namespace Codentia.Common.Data.Test.Context
         {
             string text = System.IO.File.ReadAllText(filename);
 
-            string splitter = text.IndexOf("GO\n") == -1 ? "~~" : "GO\n";
+            string splitter = text.IndexOf("GO") == -1 ? "~~" : "GO";
             string[] commands = Regex.Split(text, splitter);
 
             foreach (string command in commands)
