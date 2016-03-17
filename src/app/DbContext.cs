@@ -51,7 +51,7 @@ namespace Codentia.Common.Data
         /// <returns>
         /// Results of procedure execution
         /// </returns>
-        internal async Task<T> ExecuteProcedure<T>(string procedureName, DbParameter[] parameters)
+        protected async Task<T> ExecuteProcedure<T>(string procedureName, DbParameter[] parameters)
         {
             return await this.ConnectionProvider.Execute<T>(DbQueryType.StoredProcedure, procedureName, parameters).ConfigureAwait(false);
         }
@@ -65,7 +65,7 @@ namespace Codentia.Common.Data
         /// <returns>
         /// Results of query execution
         /// </returns>
-        internal async Task<T> ExecuteQuery<T>(string query, DbParameter[] parameters)
+        protected async Task<T> ExecuteQuery<T>(string query, DbParameter[] parameters)
         {
             return await this.ConnectionProvider.Execute<T>(DbQueryType.Adhoc, query, parameters).ConfigureAwait(false);
         }
