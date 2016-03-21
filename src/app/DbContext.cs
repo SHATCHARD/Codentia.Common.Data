@@ -24,6 +24,11 @@ namespace Codentia.Common.Data
             // initialise the provider
             _databaseName = databaseName;
             this.ConnectionProvider = DbConfiguration.Instance.GetConnectionProvider(databaseName);
+
+            if (this.ConnectionProvider == null)
+            {
+                throw new System.Exception(string.Format("Failed to initialise connectionProvider for databaseName={0}", databaseName));
+            }
         }
 
         /// <summary>
