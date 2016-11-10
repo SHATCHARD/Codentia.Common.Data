@@ -97,16 +97,19 @@ namespace Codentia.Common.Data.Test
                 expectedPassword = "A2F6A11A-7D59-4052-ACF2-770FDC9B59F6";
             }
 
-            if (server.Server == "SRV02")
+            if (server.Server == "TEST01")
             {
-                expectedServer = @"SRV02\BUILD";
-                expectedPassword = "Bu1ld";
-            }
+                if (Environment.CurrentDirectory.Contains("master"))
+                {
+                    expectedServer = @"TEST01\MASTER";
+                    expectedPassword = "M45t3r";
+                }
 
-            if (server.Server == "SRV03")
-            {
-                expectedServer = @"SRV03\PROD";
-                expectedPassword = "Pr0d";
+                if (Environment.CurrentDirectory.Contains("development"))
+                {
+                    expectedServer = @"TEST01\DEVELOPMENT";
+                    expectedPassword = "D3v3l0pm3nt";
+                }
             }
 
             string expected = string.Format(ConnectionStringFormat.SqlServer, expectedServer, "CECommonData", "adminuser", expectedPassword);

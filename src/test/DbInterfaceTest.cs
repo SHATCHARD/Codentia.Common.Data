@@ -29,10 +29,19 @@ namespace Codentia.Common.Data.Test
                     return "8AC7025B-3AE6-455B-8171-92ACC0028621";
                 case "DESKTOP-3UI717B":
                     return "A2F6A11A-7D59-4052-ACF2-770FDC9B59F6";
-                case "SRV02":
-                    return "Bu1ld";
-                case "SRV03":
-                    return "Pr0d";
+                case "TEST01":
+                    string password = "UNKNOWN";
+                    if (Environment.CurrentDirectory.Contains("master"))
+                    {
+                        password = "M45t3r";
+                    }
+
+                    if (Environment.CurrentDirectory.Contains("development"))
+                    {
+                        password = "D3v3l0pm3nt";
+                    }
+
+                    return password;
                 default:
                     return string.Empty;
             }
@@ -51,10 +60,19 @@ namespace Codentia.Common.Data.Test
                     return "DEV2012";
                 case "DESKTOP-3UI717B":
                     return "SQLEXPRESS";
-                case "SRV02":
-                    return "BUILD";
-                case "SRV03":
-                    return "PROD";
+                case "TEST01":
+                    string instance = "UNKNOWN";
+                    if (Environment.CurrentDirectory.Contains("master"))
+                    {
+                        instance = "MASTER";
+                    }
+
+                    if (Environment.CurrentDirectory.Contains("development"))
+                    {
+                        instance = "DEVELOPMENT";
+                    }
+
+                    return instance;
                 default:
                     return string.Empty;
             }

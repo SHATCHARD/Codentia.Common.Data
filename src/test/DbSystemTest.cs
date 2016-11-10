@@ -440,14 +440,14 @@ namespace Codentia.Common.Data.Test
                 instance = "SQLEXPRESS";
             }
 
-            if (parts[0] == "Data Source=SRV02\\BUILD")
+            if (parts[0] == "Data Source=TEST01\\MASTER")
             {
-                instance = "BUILD";
+                instance = "MASTER";
             }
 
-            if (parts[0] == "Data Source=SRV03\\PROD")
+            if (parts[0] == "Data Source=TEST01\\DEVELOPMENT")
             {
-                instance = "PROD";
+                instance = "DEVELOPMENT";
             }
 
             string catalogName = parts[1].Replace("Initial Catalog=", string.Empty);
