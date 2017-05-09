@@ -1,13 +1,3 @@
-use master
-GO
-
-if exists ( select 1 from sysdatabases where name = 'CECommonData' )
-	drop database CECommonData
-GO
-
-CREATE DATABASE CECommonData
-GO
-
 USE CECommonData
 GO
 
@@ -124,5 +114,26 @@ BEGIN
 	SET NOCOUNT ON
 	
 	SET @param1 = '0123456789'
+END
+GO
+
+CREATE PROCEDURE dbo.TestProc_050
+AS
+BEGIN
+	SELECT 'TestProc_050'
+END
+GO
+
+CREATE PROCEDURE dbo.TestProc_051
+AS
+BEGIN
+	SELECT 1
+END
+GO
+
+CREATE PROCEDURE dbo.TestProc_052
+AS
+BEGIN
+	SELECT 42
 END
 GO

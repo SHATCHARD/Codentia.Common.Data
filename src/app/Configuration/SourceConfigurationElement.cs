@@ -94,7 +94,7 @@ namespace Codentia.Common.Data.Configuration
         /// <value>
         /// The user.
         /// </value>
-        [ConfigurationProperty("user", IsRequired = true)]
+        [ConfigurationProperty("user", IsRequired = false)]
         public string User
         {
             get
@@ -114,7 +114,7 @@ namespace Codentia.Common.Data.Configuration
         /// <value>
         /// The password.
         /// </value>
-        [ConfigurationProperty("password", IsRequired = true)]
+        [ConfigurationProperty("password", IsRequired = false)]
         public string Password
         {
             get
@@ -125,6 +125,26 @@ namespace Codentia.Common.Data.Configuration
             set
             {
                 this["password"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether {CC2D43FA-BBC4-448A-9D0B-7B57ADF2655C}[integrated security].
+        /// </summary>
+        /// <value>
+        /// {D255958A-8513-4226-94B9-080D98F904A1}  <c>true</c> if [integrated security]; otherwise, <c>false</c>.
+        /// </value>
+        [ConfigurationProperty("integratedsecurity", IsRequired = false)]
+        public bool IntegratedSecurity
+        {
+            get
+            {
+                return Convert.ToBoolean(this["integratedsecurity"]);
+            }
+
+            set
+            {
+                this["integratedsecurity"] = value;
             }
         }
     }

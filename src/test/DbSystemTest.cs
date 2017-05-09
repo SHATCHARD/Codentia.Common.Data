@@ -55,15 +55,18 @@ namespace Codentia.Common.Data.Test
             sourceCollMaster[System.Environment.MachineName] = sourceMaster;
 
             DbConfigurationElement databaseTest = new DbConfigurationElement();
-            databaseTest.Name = "test";            
+            databaseTest.Name = "test";
+            databaseTest.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseTest.Sources = sourceCollTest;
 
             DbConfigurationElement databaseTestSys = new DbConfigurationElement();
-            databaseTestSys.Name = "system_test";            
+            databaseTestSys.Name = "system_test";
+            databaseTestSys.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseTestSys.Sources = sourceCollTestSys;
 
             DbConfigurationElement databaseMaster = new DbConfigurationElement();
-            databaseMaster.Name = "master";            
+            databaseMaster.Name = "master";
+            databaseMaster.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseMaster.Sources = sourceCollMaster;
 
             DbConfigurationCollection dbColl = new DbConfigurationCollection();
@@ -83,7 +86,7 @@ namespace Codentia.Common.Data.Test
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
 
-            string text = System.IO.File.ReadAllText(@"SQL\RecreateTestDbSys.sql");
+            string text = System.IO.File.ReadAllText(@"SQL\SqlServer\RecreateTestDbSys.sql");
 
             string[] commands = Regex.Split(text, @"GO");
 
@@ -440,14 +443,14 @@ namespace Codentia.Common.Data.Test
                 instance = "SQLEXPRESS";
             }
 
-            if (parts[0] == "Data Source=TEST01\\MASTER")
+            if (parts[0] == "Data Source=SRV02\\BUILD")
             {
-                instance = "MASTER";
+                instance = "BUILD";
             }
 
-            if (parts[0] == "Data Source=TEST01\\DEVELOPMENT")
+            if (parts[0] == "Data Source=SRV03\\PROD")
             {
-                instance = "DEVELOPMENT";
+                instance = "PROD";
             }
 
             string catalogName = parts[1].Replace("Initial Catalog=", string.Empty);

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using Codentia.Common.Data.Configuration;
 using NUnit.Framework;
+using TestContext = Codentia.Common.Data.Test.Context.TestContext;
 
 namespace Codentia.Common.Data.Test
 {
@@ -23,25 +24,16 @@ namespace Codentia.Common.Data.Test
         {
             switch (server)
             {
-                case "MIDEV01":
+                case "CEDEV01":
                     return "E67F2501-00C6-4AD4-8079-00216831AECC";
-                case "CEDEV1002":
+                case "CEDEV1002":                    
                     return "8AC7025B-3AE6-455B-8171-92ACC0028621";
                 case "DESKTOP-3UI717B":
                     return "A2F6A11A-7D59-4052-ACF2-770FDC9B59F6";
-                case "TEST01":
-                    string password = "UNKNOWN";
-                    if (Environment.CurrentDirectory.Contains("master"))
-                    {
-                        password = "M45t3r";
-                    }
-
-                    if (Environment.CurrentDirectory.Contains("development"))
-                    {
-                        password = "D3v3l0pm3nt";
-                    }
-
-                    return password;
+                case "SRV02":
+                    return "Bu1ld";
+                case "SRV03":
+                    return "Pr0d";
                 default:
                     return string.Empty;
             }
@@ -60,19 +52,10 @@ namespace Codentia.Common.Data.Test
                     return "DEV2012";
                 case "DESKTOP-3UI717B":
                     return "SQLEXPRESS";
-                case "TEST01":
-                    string instance = "UNKNOWN";
-                    if (Environment.CurrentDirectory.Contains("master"))
-                    {
-                        instance = "MASTER";
-                    }
-
-                    if (Environment.CurrentDirectory.Contains("development"))
-                    {
-                        instance = "DEVELOPMENT";
-                    }
-
-                    return instance;
+                case "SRV02":
+                    return "BUILD";
+                case "SRV03":
+                    return "PROD";
                 default:
                     return string.Empty;
             }
@@ -109,10 +92,12 @@ namespace Codentia.Common.Data.Test
 
             DbConfigurationElement databaseTest = new DbConfigurationElement();
             databaseTest.Name = "test";
+            databaseTest.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseTest.Sources = sourceCollTest;
 
             DbConfigurationElement databaseMaster = new DbConfigurationElement();
             databaseMaster.Name = "master";
+            databaseMaster.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             databaseMaster.Sources = sourceCollMaster;
 
             DbConfigurationCollection dbColl = new DbConfigurationCollection();
@@ -123,38 +108,13 @@ namespace Codentia.Common.Data.Test
             newDbConfig.Databases = dbColl;
 
             DbManagerTest.UpdateConfigurationFile(newDbConfig);
+           
+            // use DbContext to set up a fresh database
+            TestContext sqlServerMaster = new TestContext("master");
+            sqlServerMaster.PrimeTestDatabase(@"SQL\SqlServer\DropTestDb.sql");
 
-            // build our initial test config section
-            string connectionString = DbManager.Instance.GetConnectionString("master");
-
-            // now execute the test sql against it
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-
-            string text = System.IO.File.ReadAllText(@"SQL\RecreateTestDb.sql");
-
-            // string[] commands = text.Split("GO".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-            string[] commands = Regex.Split(text, @"GO");
-
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = connection;
-
-            for (int i = 0; i < commands.Length; i++)
-            {
-                commands[i] = commands[i].Trim();
-
-                if (!string.IsNullOrEmpty(commands[i]))
-                {
-                    Console.Out.WriteLine(string.Format("TestFixtureSetup - running command: {0}", commands[i]));
-
-                    cmd.CommandText = commands[i];
-                    cmd.ExecuteNonQuery();
-                }
-            }
-
-            connection.Close();
-            connection.Dispose();
-            cmd.Dispose();
+            TestContext sqlServerDb = new TestContext("test");
+            sqlServerDb.PrimeTestDatabase(@"SQL\SqlServer\CreateTestDb.sql");
         }
 
         /// <summary>

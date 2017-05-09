@@ -63,7 +63,8 @@ namespace Codentia.Common.Data.Test
             serverColl["Default"] = server;
 
             DbConfigurationElement database = new DbConfigurationElement();
-            database.Name = "test";            
+            database.Name = "test";
+            database.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
             database.Sources = serverColl;
 
             DbConfigurationCollection dbColl = new DbConfigurationCollection();
@@ -79,9 +80,9 @@ namespace Codentia.Common.Data.Test
 
             string expectedServer = System.Environment.MachineName;
             string expectedPassword = string.Empty;
-            if (server.Server == "MIDEV01")
+            if (server.Server == "CEDEV01")
             {
-                expectedServer = @"MIDEV01";
+                expectedServer = @"CEDEV01";
                 expectedPassword = "E67F2501-00C6-4AD4-8079-00216831AECC";
             }
 
@@ -97,19 +98,16 @@ namespace Codentia.Common.Data.Test
                 expectedPassword = "A2F6A11A-7D59-4052-ACF2-770FDC9B59F6";
             }
 
-            if (server.Server == "TEST01")
+            if (server.Server == "SRV02")
             {
-                if (Environment.CurrentDirectory.Contains("master"))
-                {
-                    expectedServer = @"TEST01\MASTER";
-                    expectedPassword = "M45t3r";
-                }
+                expectedServer = @"SRV02\BUILD";
+                expectedPassword = "Bu1ld";
+            }
 
-                if (Environment.CurrentDirectory.Contains("development"))
-                {
-                    expectedServer = @"TEST01\DEVELOPMENT";
-                    expectedPassword = "D3v3l0pm3nt";
-                }
+            if (server.Server == "SRV03")
+            {
+                expectedServer = @"SRV03\PROD";
+                expectedPassword = "Pr0d";
             }
 
             string expected = string.Format(ConnectionStringFormat.SqlServer, expectedServer, "CECommonData", "adminuser", expectedPassword);
@@ -232,16 +230,6 @@ namespace Codentia.Common.Data.Test
         public void _005_AddDatabaseSource_InvalidName()
         {
             Assert.That(delegate { DbManager.Instance.AddDatabaseSource(null, null, null, null, null); }, Throws.Exception.With.Message.EqualTo("databaseName was not specified"));                        
-        }
-
-        /// <summary>
-        /// Scenario: Method called with invalid value
-        /// Expected: Exception
-        /// </summary>
-        [Test]
-        public void _006_AddDatabaseSource_InvalidDatabase()
-        {
-            Assert.That(delegate { DbManager.Instance.AddDatabaseSource("Test007", null, null, null, null); }, Throws.Exception.With.Message.EqualTo("database was not specified"));                                  
         }
 
         /// <summary>
