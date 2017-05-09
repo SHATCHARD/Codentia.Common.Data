@@ -39,7 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Codentia.Common.Types">
-      <HintPath>..\..\packages\Codentia.Common.Types.dll.2.0.0-dev-20160216094650\lib\Codentia.Common.Types.dll</HintPath>
+      <HintPath>..\..\packages\Codentia.Common.Types.dll.2.0.0.6\lib\Codentia.Common.Types.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
@@ -98,4 +98,3 @@
   </Target>
   -->
 </Project>
-      <HintPath>..\..\packages\Codentia.Common.Types.dll.2.0.0.6\lib\Codentia.Common.Types.dll</HintPath>
