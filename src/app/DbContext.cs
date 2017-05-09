@@ -56,8 +56,10 @@ namespace Codentia.Common.Data
         /// <returns>
         /// Results of procedure execution
         /// </returns>
+        [Obsolete("Please use Execute() instead, this will be removed soon")]
         protected async Task<T> ExecuteProcedure<T>(string procedureName, DbParameter[] parameters)
         {
+            // TODO: Remove this method in 5.0.2.x
             return await this.ConnectionProvider.Execute<T>(DbQueryType.StoredProcedure, procedureName, parameters).ConfigureAwait(false);
         }
 
@@ -70,9 +72,36 @@ namespace Codentia.Common.Data
         /// <returns>
         /// Results of query execution
         /// </returns>
+        [Obsolete("Please use Execute() instead, this will be removed soon")]
         protected async Task<T> ExecuteQuery<T>(string query, DbParameter[] parameters)
         {
+            // TODO: Remove this method in 5.0.2.x
             return await this.ConnectionProvider.Execute<T>(DbQueryType.Adhoc, query, parameters).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Executes the specified query.
+        /// </summary>
+        /// <typeparam name="T">Return Type</typeparam>
+        /// <param name="query">The query.</param>
+        /// <param name="parameters">The parameters.</param>
+        /// <returns>Results of query execution as specified type</returns>
+        /// <exception cref="System.ArgumentException">Query not specified</exception>
+        protected async Task<T> Execute<T>(string query, DbParameter[] parameters)
+        {
+            if (!string.IsNullOrEmpty(query))
+            {
+                if (query.Trim().IndexOf(' ') > 0)
+                {
+                    return await this.ConnectionProvider.Execute<T>(DbQueryType.Adhoc, query, parameters).ConfigureAwait(false);
+                }
+                else
+                {
+                    return await this.ConnectionProvider.Execute<T>(DbQueryType.StoredProcedure, query, parameters).ConfigureAwait(false);
+                }
+            }
+
+            throw new System.ArgumentException("Query not specified");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataTable ProcedureDataTable()
         {
-            return this.ExecuteProcedure<DataTable>("TestProc003", null).Result;
+            return this.Execute<DataTable>("TestProc003", null).Result;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataSet ProcedureDataSet()
         {
-            return this.ExecuteProcedure<DataSet>("TestProc005", null).Result;
+            return this.Execute<DataSet>("TestProc005", null).Result;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public string ProcedureString()
         {
-            return this.ExecuteProcedure<string>("TestProc_050", null).Result;
+            return this.Execute<string>("TestProc_050", null).Result;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public bool ProcedureBool()
         {
-            return ExecuteProcedure<bool>("TestProc_051", null).Result;
+            return Execute<bool>("TestProc_051", null).Result;
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public int ProcedureInt()
         {
-            return this.ExecuteProcedure<int>("TestProc_052", null).Result;
+            return this.Execute<int>("TestProc_052", null).Result;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Codentia.Common.Data.Test.Context
                 new DbParameter("param1", DbType.Boolean, ParameterDirection.Output, false)
             };
 
-            this.ExecuteProcedure<DBNull>("TestProc010", parameters).Wait();
+            this.Execute<DBNull>("TestProc010", parameters).Wait();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataTable QueryDataTable()
         {
-            return this.ExecuteQuery<DataTable>("SELECT 1, 2, 3", null).Result;
+            return this.Execute<DataTable>("SELECT 1, 2, 3", null).Result;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public DataSet QueryDataSet()
         {
-            return this.ExecuteQuery<DataSet>("SELECT 1, 2, 3", null).Result;
+            return this.Execute<DataSet>("SELECT 1, 2, 3", null).Result;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public string QueryString()
         {
-            return this.ExecuteQuery<string>("SELECT 'test'", null).Result;
+            return this.Execute<string>("SELECT 'test'", null).Result;
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public bool QueryBool()
         {
-            return this.ExecuteQuery<bool>("SELECT 1", null).Result;
+            return this.Execute<bool>("SELECT 1", null).Result;
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace Codentia.Common.Data.Test.Context
         /// <returns>Test Data</returns>
         public int QueryInt()
         {
-            return this.ExecuteQuery<int>("SELECT 42", null).Result;
+            return this.Execute<int>("SELECT 42", null).Result;
         }
 
         /// <summary>
@@ -131,7 +131,7 @@ namespace Codentia.Common.Data.Test.Context
         /// </summary>
         public void QueryNoReturn()
         {
-            this.ExecuteQuery<DBNull>("UPDATE Table001 SET Column1 = 1", null).Wait();
+            this.Execute<DBNull>("UPDATE Table001 SET Column1 = 1", null).Wait();
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Codentia.Common.Data.Test.Context
                 if (!string.IsNullOrEmpty(commandText))
                 {
                     Console.Out.WriteLine(command);
-                    this.ExecuteQuery<DBNull>(command, null).Wait();
+                    this.Execute<DBNull>(command, null).Wait();
                 }
             }
         }
