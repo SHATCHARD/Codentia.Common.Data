@@ -27,7 +27,7 @@ namespace Codentia.Common.Data
 
             if (this.ConnectionProvider == null)
             {
-                throw new System.Exception(string.Format("Failed to initialise connectionProvider for databaseName={0}", databaseName));
+                throw new System.Exception(string.Format("Failed to initialise connectionProvider for databaseName={0}, hostname={1}", databaseName, System.Environment.MachineName));
             }
         }
 

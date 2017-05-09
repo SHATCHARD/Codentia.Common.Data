@@ -41,6 +41,14 @@ namespace Codentia.Common.Data.Test
             sourceTestMySql.Password = DbInterfaceTest.GetTestPassword(sourceTest.RunAt);
             sourceTestMySql.IntegratedSecurity = false;
 
+            SourceConfigurationElement sourceTestMySqlMulti = new SourceConfigurationElement();
+            sourceTestMySqlMulti.RunAt = System.Environment.MachineName;
+            sourceTestMySqlMulti.Server = string.Concat("db01", ",", "db02");
+            sourceTestMySqlMulti.Database = "cecommondata";
+            sourceTestMySqlMulti.User = "adminuser";
+            sourceTestMySqlMulti.Password = DbInterfaceTest.GetTestPassword(sourceTest.RunAt);
+            sourceTestMySqlMulti.IntegratedSecurity = false;
+
             SourceConfigurationElement sourceMaster = new SourceConfigurationElement();
             sourceMaster.RunAt = System.Environment.MachineName;
             sourceMaster.Server = System.Environment.MachineName;
@@ -63,6 +71,9 @@ namespace Codentia.Common.Data.Test
             SourceConfigurationCollection sourceCollTestMySql = new SourceConfigurationCollection();
             sourceCollTestMySql[System.Environment.MachineName] = sourceTestMySql;
 
+            SourceConfigurationCollection sourceCollTestMySqlMulti = new SourceConfigurationCollection();
+            sourceCollTestMySqlMulti[System.Environment.MachineName] = sourceTestMySqlMulti;
+
             SourceConfigurationCollection sourceCollMaster = new SourceConfigurationCollection();
             sourceCollMaster[System.Environment.MachineName] = sourceMaster;
 
@@ -79,6 +90,11 @@ namespace Codentia.Common.Data.Test
             databaseTestMySql.Provider = "Codentia.Common.Data.Provider.MySqlConnectionProvider,Codentia.Common.Data";
             databaseTestMySql.Sources = sourceCollTestMySql;
 
+            DbConfigurationElement databaseTestMySqlMulti = new DbConfigurationElement();
+            databaseTestMySqlMulti.Name = "test_mysql_multi";
+            databaseTestMySqlMulti.Provider = "Codentia.Common.Data.Provider.MySqlConnectionProvider,Codentia.Common.Data";
+            databaseTestMySqlMulti.Sources = sourceCollTestMySqlMulti;
+
             DbConfigurationElement databaseMaster = new DbConfigurationElement();
             databaseMaster.Name = "master";
             databaseMaster.Provider = "Codentia.Common.Data.Provider.SqlServerConnectionProvider,Codentia.Common.Data";
@@ -94,6 +110,7 @@ namespace Codentia.Common.Data.Test
             dbColl[1] = databaseMaster;
             dbColl[2] = databaseTestMySql;
             dbColl[3] = databaseMasterMySql;
+            dbColl[4] = databaseTestMySqlMulti;
 
             DbConnectionConfiguration newDbConfig = new DbConnectionConfiguration();
             newDbConfig.Databases = dbColl;
@@ -257,6 +274,17 @@ namespace Codentia.Common.Data.Test
             Assert.That(i, Is.EqualTo(42));
 
             context.QueryNoReturn();
+        }
+
+        /// <summary>
+        /// Run a simple query against a connection which specified multiple servers
+        /// </summary>
+        [Test]
+        public void _010_MySql_MultiServer()
+        {
+            TestContext context = new TestContext("test_mysql_multi");
+
+            int result = context.QueryInt();
         }
     }
 }

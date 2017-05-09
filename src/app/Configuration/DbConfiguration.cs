@@ -41,7 +41,7 @@ namespace Codentia.Common.Data.Configuration
                         if (configuration.Databases[i].Sources[System.Environment.MachineName] != null)
                         {
                             sourceConfig = configuration.Databases[i].Sources[System.Environment.MachineName];
-                            this.AddDatabaseSource(configuration.Databases[i].Name.ToLower(), configuration.Databases[i].Provider, sourceConfig.Server, sourceConfig.Instance, sourceConfig.Database, sourceConfig.User, sourceConfig.Password, sourceConfig.IntegratedSecurity);
+                            this.AddDatabaseSource(configuration.Databases[i].Name.ToLower(), configuration.Databases[i].Provider, sourceConfig.Server, sourceConfig.Instance, sourceConfig.Database, sourceConfig.User, sourceConfig.Password, sourceConfig.IntegratedSecurity);                        
                         }
                     }
                 }
