@@ -55,7 +55,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\DataCacheTest.cs" />
+    <Compile Include="Configuration\DbConfigurationCollectionTest.cs" />
     <Compile Include="Configuration\DbConfigurationTest.cs" />
+    <Compile Include="Configuration\SourceConfigurationCollectionTest.cs" />
+    <Compile Include="Context\TestContext.cs" />
+    <Compile Include="DbContextTest.cs" />
+    <Compile Include="DbInterfaceTest.cs" />
+    <Compile Include="DbManagerTest.cs" />
+    <Compile Include="DbParameterTest.cs" />
+    <Compile Include="DbSourceManagerTest.cs" />
+    <Compile Include="DbSystemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -95,10 +105,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Caching\" />
-    <Folder Include="Context\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(ProgramFiles)\MSBuild\StyleCop\v4.7\StyleCop.Targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
