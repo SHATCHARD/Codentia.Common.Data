@@ -66,11 +66,7 @@
     <Compile Include="Configuration\SourceConfigurationCollectionTest.cs" />
     <Compile Include="Context\TestContext.cs" />
     <Compile Include="DbContextTest.cs" />
-    <Compile Include="DbInterfaceTest.cs" />
-    <Compile Include="DbManagerTest.cs" />
     <Compile Include="DbParameterTest.cs" />
-    <Compile Include="DbSourceManagerTest.cs" />
-    <Compile Include="DbSystemTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

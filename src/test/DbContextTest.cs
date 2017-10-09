@@ -17,6 +17,8 @@ namespace Codentia.Common.Data.Test
     [TestFixture]
     public class DbContextTest
     {
+
+        /*
         /// <summary>
         /// Tests the fixture set up.
         /// </summary>
@@ -129,7 +131,7 @@ namespace Codentia.Common.Data.Test
 
             TestContext mySqlDb = new TestContext("test_mysql");
             mySqlDb.PrimeTestDatabase(@"SQL\MySQL\CreateTestDb.sql");
-        }
+        }*/
 
         /// <summary>
         /// Tests the fixture tear down.
