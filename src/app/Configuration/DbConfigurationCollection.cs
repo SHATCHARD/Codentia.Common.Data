@@ -26,7 +26,14 @@ namespace Codentia.Common.Data.Configuration
                     this.BaseRemoveAt(index);
                 }
 
-                this.BaseAdd(index, value);
+                if(this.Count == 0)
+                {
+                    this.BaseAdd(value);
+                }
+                else
+                {
+                    this.BaseAdd(index, value);
+                }
             }
         }
 

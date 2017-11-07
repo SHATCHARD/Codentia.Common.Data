@@ -59,32 +59,37 @@ namespace Codentia.Common.Data.Provider
 
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
-                int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false).ConfigureAwait(false);
+                int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false);
 
-                MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync();
-
-                DataSet toFill = new DataSet();
-
-                bool reading = true;
-                while(reading)
+                using(MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
                 {
-                    DataTable table = new DataTable();
-                    table.Load(reader);
-                    toFill.Tables.Add(table);
+                    DataSet toFill = new DataSet();
+                    bool reading = true;
+                    while(reading)
+                    {
+                        DataTable table = new DataTable();
+                        table.Load(reader);
+                        toFill.Tables.Add(table);
 
-                    reading = await reader.NextResultAsync();
+                        try
+                        {
+                            await reader.NextResultAsync();
+                        }
+                        catch
+                        {
+                            reading = false;
+                        }
+                    }
+                        
+                    if (typeof(T) == typeof(DataTable))
+                    {
+                        result = (T)Convert.ChangeType(toFill.Tables[0], typeof(T));
+                    }
+                    else
+                    {
+                        result = (T)Convert.ChangeType(toFill, typeof(T));
+                    }
                 }
-                    
-                if (typeof(T) == typeof(DataTable))
-                {
-                    result = (T)Convert.ChangeType(toFill.Tables[0], typeof(T));
-                }
-                else
-                {
-                    result = (T)Convert.ChangeType(toFill, typeof(T));
-                }
-
-                reader.Dispose();
             }
             else
             {
@@ -129,7 +134,7 @@ namespace Codentia.Common.Data.Provider
 
                 if (!scalar)
                 {
-                    int taskResult = await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    int taskResult = await command.ExecuteNonQueryAsync();
 
                     if (typeof(T) != typeof(DBNull))
                     {
@@ -138,7 +143,7 @@ namespace Codentia.Common.Data.Provider
                 }
                 else
                 {
-                    object scalarResult = await command.ExecuteScalarAsync().ConfigureAwait(false);
+                    object scalarResult = await command.ExecuteScalarAsync();
 
                     if (result is IConvertible)
                     {
