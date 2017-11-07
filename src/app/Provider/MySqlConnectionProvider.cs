@@ -61,10 +61,20 @@ namespace Codentia.Common.Data.Provider
             {
                 int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false).ConfigureAwait(false);
 
-                DataSet toFill = new DataSet();
-                MySqlDataAdapter adapter = new MySqlDataAdapter(command);
-                adapter.Fill(toFill);
+                MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync();
 
+                DataSet toFill = new DataSet();
+
+                bool reading = true;
+                while(reading)
+                {
+                    DataTable table = new DataTable();
+                    table.Load(reader);
+                    toFill.Tables.Add(table);
+
+                    reading = await reader.NextResultAsync();
+                }
+                    
                 if (typeof(T) == typeof(DataTable))
                 {
                     result = (T)Convert.ChangeType(toFill.Tables[0], typeof(T));
@@ -74,7 +84,7 @@ namespace Codentia.Common.Data.Provider
                     result = (T)Convert.ChangeType(toFill, typeof(T));
                 }
 
-                adapter.Dispose();
+                reader.Dispose();
             }
             else
             {
