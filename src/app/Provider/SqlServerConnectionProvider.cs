@@ -224,6 +224,18 @@ namespace Codentia.Common.Data.Provider
                         case DbType.Xml:
                             sqlParams[i].SqlDbType = SqlDbType.Xml;
                             break;
+                        case DbType.Object:
+                            if (parameters[i].IsTableType)
+                            {
+                                sqlParams[i].SqlDbType = SqlDbType.Structured;
+                                sqlParams[i].TypeName = parameters[i].TableTypeName;
+                            }      
+                            else
+                            {
+                                throw new System.NotImplementedException(string.Format("Unsupported DbType: {0}", parameters[i].DbType.ToString()));
+                            }        
+                                          
+                            break;
                         default:
                             throw new System.NotImplementedException(string.Format("Unsupported DbType: {0}", parameters[i].DbType.ToString()));
                     }

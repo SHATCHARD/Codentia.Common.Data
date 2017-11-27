@@ -5,7 +5,7 @@ namespace Codentia.Common.Data
     /// <summary>
     /// DbParameter class
     /// </summary>
-    public class DbParameter 
+    public class DbParameter
     {
         private string _name;
         private DbType _dataType;
@@ -14,6 +14,8 @@ namespace Codentia.Common.Data
         private byte _scale;
         private byte _precision;
         private object _value;
+        private bool _isTableType;
+        private string _tableTypeName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DbParameter"/> class.
@@ -72,9 +74,25 @@ namespace Codentia.Common.Data
         {
             _name = parameterName;
             _dataType = dataType;
-            _value = value;       
+            _value = value;
             _direction = direction;
             _size = size;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DbParameter" /> class.
+        /// </summary>
+        /// <param name="parameterName">Name of the parameter.</param>
+        /// <param name="tableTypeName">Name of the table type.</param>
+        /// <param name="value">The value.</param>
+        public DbParameter(string parameterName, string tableTypeName, object value)
+        {
+            _name = parameterName;
+            _dataType = DbType.Object;
+            _isTableType = true;
+            _direction = ParameterDirection.Input;
+            _tableTypeName = tableTypeName;
+            _value = value;
         }
 
         /// <summary>
@@ -193,6 +211,38 @@ namespace Codentia.Common.Data
             set
             {
                 _precision = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is table type.
+        /// </summary>
+        public bool IsTableType
+        {
+            get
+            {
+                return _isTableType;
+            }
+
+            set
+            {
+                _isTableType = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the table type.
+        /// </summary>
+        public string TableTypeName
+        {
+            get
+            {
+                return _tableTypeName;
+            }
+
+            set
+            {
+                _tableTypeName = value;
             }
         }
     }
