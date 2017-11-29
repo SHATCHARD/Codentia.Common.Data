@@ -229,6 +229,7 @@ namespace Codentia.Common.Data.Provider
                             {
                                 sqlParams[i].SqlDbType = SqlDbType.Structured;
                                 sqlParams[i].TypeName = parameters[i].TableTypeName;
+                                sqlParams[i].Value = parameters[i].TableData;
                             }      
                             else
                             {

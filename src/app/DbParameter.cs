@@ -16,6 +16,7 @@ namespace Codentia.Common.Data
         private object _value;
         private bool _isTableType;
         private string _tableTypeName;
+        private DataTable _tableData;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DbParameter"/> class.
@@ -85,14 +86,14 @@ namespace Codentia.Common.Data
         /// <param name="parameterName">Name of the parameter.</param>
         /// <param name="tableTypeName">Name of the table type.</param>
         /// <param name="value">The value.</param>
-        public DbParameter(string parameterName, string tableTypeName, object value)
+        public DbParameter(string parameterName, string tableTypeName, DataTable value)
         {
             _name = parameterName;
             _dataType = DbType.Object;
             _isTableType = true;
             _direction = ParameterDirection.Input;
             _tableTypeName = tableTypeName;
-            _value = value;
+            _tableData = value;
         }
 
         /// <summary>
@@ -243,6 +244,22 @@ namespace Codentia.Common.Data
             set
             {
                 _tableTypeName = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the table data.
+        /// </summary>
+        public DataTable TableData
+        {
+            get
+            {
+                return _tableData;
+            }
+
+            set
+            {
+                _tableData = value;
             }
         }
     }
