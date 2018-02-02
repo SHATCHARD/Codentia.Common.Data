@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
+using System.Text;
 using System.Threading.Tasks;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
-namespace Codentia.Common.Data.Provider
+namespace Codentia.Common.Data.Providers
 {
     /// <summary>
-    /// SqlServerConnectionProvider - provides an interface to MSSQL
+    /// Connection Provider implementation for MySql driver (Connector/NET)
     /// </summary>
-    public class SqlServerConnectionProvider : IDbConnectionProvider
+    public class MySqlConnectionProvider : IDbConnectionProvider
     {
-        private const string ConnectionStringNoInstanceIntegrated = @"Data Source={0};Initial Catalog={2};IntegratedSecurity=SSPI;";
-        private const string ConnectionStringInstanceIntegrated = @"Data Source={0}\{1};Initial Catalog={2};IntegratedSecurity=SSPI;";
-        private const string ConnectionStringNoInstance = @"Data Source={0};Initial Catalog={2};User Id={3};Password={4};";
-        private const string ConnectionStringInstance = @"Data Source={0}\{1};Initial Catalog={2};User Id={3};Password={4};";
+        private const string ConnectionStringDatabase = @"Server={0};Port={4};Database={1};Uid={2};Pwd={3};";
+        private const string ConnectionStringNoDatabase = @"Server={0};Port={4};Uid={2};Pwd={3};";
 
         private string _connectionString;
 
@@ -23,39 +22,17 @@ namespace Codentia.Common.Data.Provider
         /// Adds the connection string.
         /// </summary>
         /// <param name="server">The server.</param>
-        /// <param name="instance">The instance.</param>
+        /// <param name="instance">The instance (this is the port number for MySQL, defaults to 3306).</param>
         /// <param name="database">The database.</param>
         /// <param name="userId">The user identifier.</param>
         /// <param name="password">The password.</param>
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
         public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity)
         {
-            string connectionStringPattern = string.Empty;
+            instance = string.IsNullOrEmpty(instance) ? "3306" : instance;
 
-            if (integratedSecurity)
-            {
-                if (string.IsNullOrEmpty(instance))
-                {
-                    connectionStringPattern = SqlServerConnectionProvider.ConnectionStringNoInstanceIntegrated;
-                }
-                else
-                {
-                    connectionStringPattern = SqlServerConnectionProvider.ConnectionStringInstanceIntegrated;
-                }
-            }
-            else
-            {
-                if (string.IsNullOrEmpty(instance))
-                {
-                    connectionStringPattern = SqlServerConnectionProvider.ConnectionStringNoInstance;
-                }
-                else
-                {
-                    connectionStringPattern = SqlServerConnectionProvider.ConnectionStringInstance;
-                }
-            }
-
-            _connectionString = string.Format(connectionStringPattern, server, instance, database, userId, password);
+            string connectionStringTemplate = string.IsNullOrEmpty(database) ? MySqlConnectionProvider.ConnectionStringNoDatabase : MySqlConnectionProvider.ConnectionStringDatabase;
+            _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance);
         }
 
         /// <summary>
@@ -68,11 +45,11 @@ namespace Codentia.Common.Data.Provider
         /// <returns>Task of type T</returns>
         public async Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters)
         {
-            SqlConnection connection = this.GetConnection();
+            MySqlConnection connection = this.GetConnection();
 
             T result = default(T);
 
-            SqlCommand command = new SqlCommand(query, connection);
+            MySqlCommand command = new MySqlCommand(query, connection);
             command.CommandType = queryType == DbQueryType.StoredProcedure ? CommandType.StoredProcedure : CommandType.Text;
 
             if (parameters != null && parameters.Length > 0)
@@ -82,29 +59,57 @@ namespace Codentia.Common.Data.Provider
 
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
-                int outcome = await SqlServerConnectionProvider.Execute<int>(connection, command, false).ConfigureAwait(false);
-                
-                DataSet toFill = new DataSet();
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                adapter.Fill(toFill);
+                int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false);
 
-                if (typeof(T) == typeof(DataTable))
+                using(MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
                 {
-                    result = (T)Convert.ChangeType(toFill.Tables[0], typeof(T));
-                }
-                else
-                {
-                    result = (T)Convert.ChangeType(toFill, typeof(T));
-                }
+                    DataSet toFill = new DataSet();
+                    bool reading = true;
+                    while(reading)
+                    {
+                        DataTable table = new DataTable();
+                        table.Load(reader);
+                        toFill.Tables.Add(table);
 
-                adapter.Dispose();
+                        try
+                        {
+                            await reader.NextResultAsync();
+                        }
+                        catch
+                        {
+                            reading = false;
+                        }
+                    }
+                        
+                    if (typeof(T) == typeof(DataTable))
+                    {
+                        result = (T)Convert.ChangeType(toFill.Tables[0], typeof(T));
+                    }
+                    else
+                    {
+                        result = (T)Convert.ChangeType(toFill, typeof(T));
+                    }
+                }
             }
             else
             {
-                result = await SqlServerConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).ConfigureAwait(false);
+                result = MySqlConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).Result;
             }
 
-            this.CloseConnection(connection);
+            try
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                    command.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                // TODO: Logging
+                throw ex;
+            }
 
             return result;
         }
@@ -117,7 +122,7 @@ namespace Codentia.Common.Data.Provider
         /// <param name="command">The command.</param>
         /// <param name="scalar">if set to <c>true</c> [scalar].</param>
         /// <returns>Results of procedure execution</returns>
-        private static async Task<T> Execute<T>(SqlConnection connection, SqlCommand command, bool scalar)
+        private static async Task<T> Execute<T>(MySqlConnection connection, MySqlCommand command, bool scalar)
         {
             T result = default(T);
             try
@@ -129,7 +134,7 @@ namespace Codentia.Common.Data.Provider
 
                 if (!scalar)
                 {
-                    int taskResult = await command.ExecuteNonQueryAsync().ConfigureAwait(false);
+                    int taskResult = await command.ExecuteNonQueryAsync();
 
                     if (typeof(T) != typeof(DBNull))
                     {
@@ -138,7 +143,7 @@ namespace Codentia.Common.Data.Provider
                 }
                 else
                 {
-                    object scalarResult = await command.ExecuteScalarAsync().ConfigureAwait(false);
+                    object scalarResult = await command.ExecuteScalarAsync();
 
                     if (result is IConvertible)
                     {
@@ -157,24 +162,24 @@ namespace Codentia.Common.Data.Provider
             }
 
             return result;
-        }        
+        }
 
         /// <summary>
         /// Imports the parameters.
         /// </summary>
         /// <param name="parameters">The parameters.</param>
         /// <returns>Array of SqlParameter</returns>
-        private static SqlParameter[] ImportParameters(DbParameter[] parameters)
+        private static MySqlParameter[] ImportParameters(DbParameter[] parameters)
         {
-            SqlParameter[] sqlParams = null;
+            MySqlParameter[] sqlParams = null;
 
             if (parameters != null)
             {
-                sqlParams = new SqlParameter[parameters.Length];
+                sqlParams = new MySqlParameter[parameters.Length];
 
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    sqlParams[i] = new SqlParameter();
+                    sqlParams[i] = new MySqlParameter();
                     sqlParams[i].ParameterName = parameters[i].ParameterName;
                     sqlParams[i].Direction = parameters[i].Direction;
                     sqlParams[i].Value = DBNull.Value;
@@ -189,40 +194,38 @@ namespace Codentia.Common.Data.Provider
                     switch (parameters[i].DbType)
                     {
                         case DbType.Byte:
-                            sqlParams[i].SqlDbType = SqlDbType.TinyInt;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Int16;
                             break;
                         case DbType.Int16:
                         case DbType.Int32:
                         case DbType.Int64:
-                            sqlParams[i].SqlDbType = SqlDbType.Int;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Int32;
                             break;
                         case DbType.Guid:
-                            sqlParams[i].SqlDbType = SqlDbType.UniqueIdentifier;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Guid;
                             break;
                         case DbType.StringFixedLength:
                         case DbType.String:
-                            sqlParams[i].SqlDbType = SqlDbType.NVarChar;
+                            sqlParams[i].MySqlDbType = MySqlDbType.VarChar;
                             sqlParams[i].Size = parameters[i].Size;
                             break;
                         case DbType.Boolean:
-                            sqlParams[i].SqlDbType = SqlDbType.Bit;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Bit;
                             break;
                         case DbType.Currency:
-                            sqlParams[i].SqlDbType = SqlDbType.Money;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Decimal;
                             break;
                         case DbType.DateTime:
-                            sqlParams[i].SqlDbType = SqlDbType.DateTime;
-                            break;
                         case DbType.DateTime2:
-                            sqlParams[i].SqlDbType = SqlDbType.DateTime2;
+                            sqlParams[i].MySqlDbType = MySqlDbType.DateTime;
                             break;
                         case DbType.Decimal:
-                            sqlParams[i].SqlDbType = SqlDbType.Decimal;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Decimal;
                             sqlParams[i].Scale = parameters[i].Scale;
                             sqlParams[i].Precision = parameters[i].Precision;
                             break;
                         case DbType.Xml:
-                            sqlParams[i].SqlDbType = SqlDbType.Xml;
+                            sqlParams[i].MySqlDbType = MySqlDbType.Text;
                             break;
                         default:
                             throw new System.NotImplementedException(string.Format("Unsupported DbType: {0}", parameters[i].DbType.ToString()));
@@ -239,35 +242,14 @@ namespace Codentia.Common.Data.Provider
         /// <returns>
         /// SqlConnection for the corresponding connection string
         /// </returns>
-        private SqlConnection GetConnection()
+        private MySqlConnection GetConnection()
         {
             if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new System.Exception("Cannot call GetConnection before ConnectionString is set.");
             }
 
-            return new SqlConnection(_connectionString);
+            return new MySqlConnection(_connectionString);
         }
-
-        /// <summary>
-        /// Closes the connection.
-        /// </summary>
-        /// <param name="connection">The connection.</param>
-        private void CloseConnection(SqlConnection connection)
-        {
-            try
-            {
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                // TODO: Logging
-                throw ex;
-            }
-        }
-    }
+     }
 }

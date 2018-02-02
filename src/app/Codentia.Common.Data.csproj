@@ -5,12 +5,11 @@
 -->
   <PropertyGroup>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
-    <ReleaseVersion>6.0.0.0</ReleaseVersion>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 	<PropertyGroup>
 	<OutputType>Exe</OutputType>
-    <TargetFrameworks>net47;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
 	</PropertyGroup>
 <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -27,7 +26,7 @@
     </NuGetPackageImportStamp>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>Codentia.Common.Data</PackageId>
-    <PackageVersion>6.0.0</PackageVersion>
+    <PackageVersion>6.0.1</PackageVersion>
     <Authors>Codentia Ltd</Authors>
     <Owners>Codentia Ltd</Owners>
     <Title>Codentia Common Data Library</Title>
@@ -59,44 +58,15 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data" />
-		<!--
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-		-->
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DbContext.cs" />
-    <None Include="DbParameter.cs" />
-    <None Include="DbQueryType.cs" />
-    <None Include="Configuration\DbConfiguration.cs" />
-    <None Include="Configuration\DbConfigurationCollection.cs" />
-    <None Include="Configuration\DbConfigurationElement.cs" />
-    <None Include="Configuration\DbConnectionConfiguration.cs" />
-    <None Include="Configuration\SourceConfigurationCollection.cs" />
-    <None Include="Configuration\SourceConfigurationElement.cs" />
-    <None Include="Provider\IDbConnectionProvider.cs" />
-    <None Include="Provider\MySqlConnectionProvider.cs" />
-    <None Include="Provider\SqlServerConnectionProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="MySqlConnector" Version="0.30.0" />
-    <PackageReference Include="NETStandard.Library" Version="2.0.1" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
   </ItemGroup>
 <!--  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
+  <ItemGroup>
+    <None Remove="StyleCop.Cache" />
+  </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>

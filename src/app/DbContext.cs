@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Codentia.Common.Data.Configuration;
-using Codentia.Common.Data.Provider;
+using Codentia.Common.Data.Providers;
 
 namespace Codentia.Common.Data
 {
     /// <summary>
     /// Base Database Context object for executing queries and procedures
     /// </summary>
-    public abstract class DbContext : IDisposable
+    public abstract class DbContext
     {
         private string _databaseName;
 
@@ -23,7 +23,9 @@ namespace Codentia.Common.Data
         {
             // initialise the provider
             _databaseName = databaseName;
-            this.ConnectionProvider = DbConfiguration.Instance.GetConnectionProvider(databaseName);
+
+            SecretsDbConfiguration config = new SecretsDbConfiguration();
+            this.ConnectionProvider = config.GetProvider(databaseName);
 
             if (this.ConnectionProvider == null)
             {
@@ -38,46 +40,6 @@ namespace Codentia.Common.Data
         /// The connection provider.
         /// </value>
         public IDbConnectionProvider ConnectionProvider { get; set; }
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            DbConfiguration.Instance.Dispose();
-        }
-
-        /// <summary>
-        /// Executes the procedure.
-        /// </summary>
-        /// <typeparam name="T">Return Type</typeparam>
-        /// <param name="procedureName">Name of the procedure.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>
-        /// Results of procedure execution
-        /// </returns>
-        [Obsolete("Please use Execute() instead, this will be removed soon")]
-        protected async Task<T> ExecuteProcedure<T>(string procedureName, DbParameter[] parameters)
-        {
-            // TODO: Remove this method in 5.0.2.x
-            return await this.ConnectionProvider.Execute<T>(DbQueryType.StoredProcedure, procedureName, parameters).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// Executes the query.
-        /// </summary>
-        /// <typeparam name="T">Return Type</typeparam>
-        /// <param name="query">The query.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>
-        /// Results of query execution
-        /// </returns>
-        [Obsolete("Please use Execute() instead, this will be removed soon")]
-        protected async Task<T> ExecuteQuery<T>(string query, DbParameter[] parameters)
-        {
-            // TODO: Remove this method in 5.0.2.x
-            return await this.ConnectionProvider.Execute<T>(DbQueryType.Adhoc, query, parameters).ConfigureAwait(false);
-        }
 
         /// <summary>
         /// Executes the specified query.
