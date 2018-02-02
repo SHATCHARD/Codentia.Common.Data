@@ -5,14 +5,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Codentia.Common.Data;
-using Codentia.Common.Data.Provider;
+using Codentia.Common.Data.Providers;
 
 namespace Codentia.Common.Data.Test.Context
 {
     /// <summary>
     /// Wrapper around DbContext to permit testing
     /// </summary>
-    public class TestContext : DbContext
+    public class TestContext : DbContext<DbContextTest>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestContext" /> class.

@@ -11,20 +11,20 @@ namespace Codentia.Common.Data
     /// <summary>
     /// Base Database Context object for executing queries and procedures
     /// </summary>
-    public abstract class DbContext
+    public abstract class DbContext<TSecrets> where TSecrets : class
     {
         private string _databaseName;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DbContext"/> class.
+        /// Initializes a new instance of the <see cref="T:Codentia.Common.Data.DbContext`1"/> class.
         /// </summary>
-        /// <param name="databaseName">Name of the database.</param>
-        public DbContext(string databaseName)
+        /// <param name="databaseName">Database name.</param>
+        public DbContext(string databaseName) 
         {
             // initialise the provider
             _databaseName = databaseName;
 
-            SecretsDbConfiguration config = new SecretsDbConfiguration();
+            SecretsDbConfiguration<TSecrets> config = new SecretsDbConfiguration<TSecrets>();
             this.ConnectionProvider = config.GetProvider(databaseName);
 
             if (this.ConnectionProvider == null)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Codentia.Common.Data.Providers;
 
 namespace Codentia.Common.Data.Configuration
@@ -11,7 +12,7 @@ namespace Codentia.Common.Data.Configuration
     /// <summary>
     /// Secrets db configuration.
     /// </summary>
-    public class SecretsDbConfiguration
+    public class SecretsDbConfiguration<TSecrets> where TSecrets : class
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Codentia.Common.Data.Configuration.SecretsDbConfiguration"/> class.
@@ -20,11 +21,18 @@ namespace Codentia.Common.Data.Configuration
         {
             this.Sources = new List<DbSource>();
 
-            var configurationBuilder = new ConfigurationBuilder();
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
-            configurationBuilder.AddJsonFile(path, false);
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
 
-            var root = configurationBuilder.Build();
+            string appSettingsPath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            if(File.Exists(appSettingsPath))
+            {
+                configurationBuilder.AddJsonFile(appSettingsPath, false);
+
+            }
+
+            configurationBuilder.AddUserSecrets<TSecrets>();
+
+            IConfigurationRoot root = configurationBuilder.Build();
 
             // top level databases section
             IConfigurationSection section = root.GetSection("datasources");
