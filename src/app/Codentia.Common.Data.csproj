@@ -26,7 +26,7 @@
     </NuGetPackageImportStamp>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>Codentia.Common.Data</PackageId>
-    <PackageVersion>6.0.3</PackageVersion>
+    <PackageVersion>6.0.5</PackageVersion>
     <Authors>Codentia Ltd</Authors>
     <Owners>Codentia Ltd</Owners>
     <Title>Codentia Common Data Library</Title>
@@ -58,11 +58,11 @@
     <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.0.0" />
-    <PackageReference Include="MySqlConnector" Version="0.36.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.1.1" />
+    <PackageReference Include="MySqlConnector" Version="0.43.0" />
   </ItemGroup>
 <!--  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
   <ItemGroup>

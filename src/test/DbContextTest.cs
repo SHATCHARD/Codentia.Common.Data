@@ -28,10 +28,7 @@ namespace Codentia.Common.Data.Test
             Assert.That(context.ConnectionProvider, Is.Not.Null);
         }
 
-        /// <summary>
-        /// Execute a stored procedure (for various return types) against SqlServer
-        /// </summary>
-        [Test]
+/*        [Test]
         public void _003_SqlServer_ExecuteProcedure()
         {
             TestContext context = new TestContext("test");
@@ -107,7 +104,7 @@ namespace Codentia.Common.Data.Test
             Assert.That(i, Is.EqualTo(42));
 
             context.ProcedureNoReturn();
-        }
+        }*/
 
         /// <summary>
         /// Execute a simple query (various return types) against MySql
@@ -115,7 +112,7 @@ namespace Codentia.Common.Data.Test
         [Test]
         public void _006_MySql_ExecuteInline()
         {
-            TestContext context = new TestContext("test_mysql");
+            TestContext context = new TestContext("test1");
 
             DataTable dt = context.QueryDataTable();
             Assert.That(dt.Rows.Count, Is.EqualTo(1));
@@ -136,6 +133,7 @@ namespace Codentia.Common.Data.Test
             context.QueryNoReturn();
         }
 
+        /*
         /// <summary>
         /// Run a simple query against a connection which specified multiple servers
         /// </summary>
@@ -145,6 +143,6 @@ namespace Codentia.Common.Data.Test
             TestContext context = new TestContext("test_mysql_multi");
 
             int result = context.QueryInt();
-        }
+        }*/
     }
 }

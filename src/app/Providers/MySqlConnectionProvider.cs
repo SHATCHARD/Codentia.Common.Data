@@ -107,7 +107,6 @@ namespace Codentia.Common.Data.Providers
             }
             catch (Exception ex)
             {
-                // TODO: Logging
                 throw ex;
             }
 
@@ -157,7 +156,6 @@ namespace Codentia.Common.Data.Providers
             }
             catch (Exception ex)
             {
-                // TODO: Logging
                 throw ex;
             }
 
@@ -228,7 +226,7 @@ namespace Codentia.Common.Data.Providers
                             sqlParams[i].MySqlDbType = MySqlDbType.Text;
                             break;
                         default:
-                            throw new System.NotImplementedException(string.Format("Unsupported DbType: {0}", parameters[i].DbType.ToString()));
+                            throw new System.NotSupportedException(string.Format("Unsupported DbType: {0}", parameters[i].DbType.ToString()));
                     }
                 }
             }
