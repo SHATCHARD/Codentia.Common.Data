@@ -2,7 +2,7 @@
 using System.Data.Common;
 using System.Threading.Tasks;
 
-namespace Codentia.Common.Data.Provider
+namespace Codentia.Common.Data.Providers
 {
     /// <summary>
     /// Interface for Database Connection Providers
