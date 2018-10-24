@@ -47,19 +47,20 @@ namespace Codentia.Common.Data
         /// <typeparam name="T">Return Type</typeparam>
         /// <param name="query">The query.</param>
         /// <param name="parameters">The parameters.</param>
+        /// <param name="commandTimeout">Command Timeout</param>
         /// <returns>Results of query execution as specified type</returns>
         /// <exception cref="System.ArgumentException">Query not specified</exception>
-        protected async Task<T> Execute<T>(string query, DbParameter[] parameters)
+        protected async Task<T> Execute<T>(string query, DbParameter[] parameters, int commandTimeout = 30)
         {
             if (!string.IsNullOrEmpty(query))
             {
                 if (query.Trim().IndexOf(' ') > 0)
                 {
-                    return await this.ConnectionProvider.Execute<T>(DbQueryType.Adhoc, query, parameters).ConfigureAwait(false);
+                    return await this.ConnectionProvider.Execute<T>(DbQueryType.Adhoc, query, parameters, commandTimeout: commandTimeout).ConfigureAwait(false);
                 }
                 else
                 {
-                    return await this.ConnectionProvider.Execute<T>(DbQueryType.StoredProcedure, query, parameters).ConfigureAwait(false);
+                    return await this.ConnectionProvider.Execute<T>(DbQueryType.StoredProcedure, query, parameters, commandTimeout: commandTimeout).ConfigureAwait(false);
                 }
             }
 

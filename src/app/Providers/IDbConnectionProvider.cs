@@ -27,7 +27,8 @@ namespace Codentia.Common.Data.Providers
         /// <param name="queryType">Type of the query.</param>
         /// <param name="query">The query.</param>
         /// <param name="parameters">The parameters.</param>
+        /// <param name="commandTimeout">Command Timeout</param>
         /// <returns>Task of type T</returns>
-        Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters);
+        Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters, int commandTimeout = 30);
    }
 }

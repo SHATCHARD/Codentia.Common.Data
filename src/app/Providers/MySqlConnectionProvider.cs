@@ -42,8 +42,9 @@ namespace Codentia.Common.Data.Providers
         /// <param name="queryType">Type of the query.</param>
         /// <param name="query">The query.</param>
         /// <param name="parameters">The parameters.</param>
+        /// <param name="commandTimeout">Command Timeout</param>
         /// <returns>Task of type T</returns>
-        public async Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters)
+        public async Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters, int commandTimeout = 30)
         {
             MySqlConnection connection = this.GetConnection();
 
@@ -56,6 +57,8 @@ namespace Codentia.Common.Data.Providers
             {
                 command.Parameters.AddRange(ImportParameters(parameters));
             }
+
+            command.CommandTimeout = commandTimeout;
 
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
