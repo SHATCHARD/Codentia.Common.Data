@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
@@ -64,33 +65,50 @@ namespace Codentia.Common.Data.Providers
             {
                 int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false);
 
-                using(MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
                 {
-                    DataSet toFill = new DataSet();
-                    bool reading = true;
-                    while(reading)
-                    {
-                        DataTable table = new DataTable();
-                        table.Load(reader);
-                        toFill.Tables.Add(table);
 
-                        try
-                        {
-                            await reader.NextResultAsync();
-                        }
-                        catch
-                        {
-                            reading = false;
-                        }
+                    DataTable schemaTable = reader.GetSchemaTable();
+
+                    DataSet outputSet = new DataSet();
+                    DataTable output = new DataTable();
+
+                    output.TableName = Convert.ToString(schemaTable.Rows[0]["BaseTableName"]);
+
+                    foreach (DataRow row in schemaTable.Rows)
+                    {
+                        DataColumn col = new DataColumn(Convert.ToString(row["ColumnName"]), Type.GetType(Convert.ToString(row["DataType"])));
+                        output.Columns.Add(col);
                     }
-                        
+
+                    while (await reader.ReadAsync())
+                    {
+                        object[] row = new object[output.Columns.Count];
+
+                        for (int i = 0; i < output.Columns.Count; i++)
+                        {
+                            if (reader[i] == null)
+                            {
+                                row[i] = DBNull.Value;
+                            }
+                            else
+                            {
+                                row[i] = reader[i];
+                            }
+                        }
+
+                        output.Rows.Add(row);
+                    }
+
+                    outputSet.Tables.Add(output);
+
                     if (typeof(T) == typeof(DataTable))
                     {
-                        result = (T)Convert.ChangeType(toFill.Tables[0], typeof(T));
+                        result = (T)Convert.ChangeType(output, typeof(T));
                     }
                     else
                     {
-                        result = (T)Convert.ChangeType(toFill, typeof(T));
+                        result = (T)Convert.ChangeType(outputSet, typeof(T));
                     }
                 }
             }
@@ -252,5 +270,5 @@ namespace Codentia.Common.Data.Providers
 
             return new MySqlConnection(_connectionString);
         }
-     }
+    }
 }

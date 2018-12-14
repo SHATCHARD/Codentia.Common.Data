@@ -134,7 +134,17 @@ namespace Codentia.Common.Data.Test.Context
             this.Execute<DBNull>("UPDATE Table001 SET Column1 = 1", null).Wait();
         }
 
-        /// <summary>
+        public void ExecuteSQL(string sql)
+        {
+            this.Execute<DBNull>(sql, null).Wait();
+        }
+
+        public DataTable ExecuteDataTable(string sql)
+        {
+            return this.Execute<DataTable>(sql, null).Result;
+        }
+
+                /// <summary>
         /// Primes the test database.
         /// </summary>
         /// <param name="filename">The filename.</param>

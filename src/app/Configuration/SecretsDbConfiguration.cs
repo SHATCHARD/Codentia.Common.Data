@@ -27,10 +27,9 @@ namespace Codentia.Common.Data.Configuration
             if(File.Exists(appSettingsPath))
             {
                 configurationBuilder.AddJsonFile(appSettingsPath, false);
-
             }
 
-            configurationBuilder.AddUserSecrets<TSecrets>();
+            configurationBuilder.AddUserSecrets<TSecrets>(true);
 
             IConfigurationRoot root = configurationBuilder.Build();
 
