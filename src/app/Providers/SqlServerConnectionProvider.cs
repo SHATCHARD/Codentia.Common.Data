@@ -1,40 +1,27 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data;
-using MySql.Data.MySqlClient;
-
-namespace Codentia.Common.Data.Providers
+﻿namespace Codentia.Common.Data.Providers
 {
-    /// <summary>
-    /// Connection Provider implementation for MySql driver (Connector/NET)
-    /// </summary>
-    public class MySqlConnectionProvider : IDbConnectionProvider
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Data.SqlClient;
+
+    public class SqlServerConnectionProvider : IDbConnectionProvider
     {
-        private const string ConnectionStringDatabase = @"Server={0};Port={4};Database={1};Uid={2};Pwd={3};";
-        private const string ConnectionStringNoDatabase = @"Server={0};Port={4};Uid={2};Pwd={3};";
- 
+        private const string ConnectionStringDatabase = @"Server={0}{4};Database={1};User Id={2};Password={3};";
+        private const string ConnectionStringNoDatabase = @"Server={0}{4};User Id={2};Password={3};";
+
         private string _connectionString;
 
         public bool Debug { get; set; }
 
-        /// <summary>
-        /// Adds the connection string.
-        /// </summary>
-        /// <param name="server">The server.</param>
-        /// <param name="instance">The instance (this is the port number for MySQL, defaults to 3306).</param>
-        /// <param name="database">The database.</param>
-        /// <param name="userId">The user identifier.</param>
-        /// <param name="password">The password.</param>
-        /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
         public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity)
         {
-            instance = string.IsNullOrEmpty(instance) ? "3306" : instance;
+            instance = string.IsNullOrEmpty(instance) ? string.Empty : $@"\{instance}";
 
-            string connectionStringTemplate = string.IsNullOrEmpty(database) ? MySqlConnectionProvider.ConnectionStringNoDatabase : MySqlConnectionProvider.ConnectionStringDatabase;
+            string connectionStringTemplate = string.IsNullOrEmpty(database) ? SqlServerConnectionProvider.ConnectionStringNoDatabase : SqlServerConnectionProvider.ConnectionStringDatabase;
             _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance);
 
             if (this.Debug)
@@ -43,22 +30,13 @@ namespace Codentia.Common.Data.Providers
             }
         }
 
-        /// <summary>
-        /// Executes the specified query type.
-        /// </summary>
-        /// <typeparam name="T">Return Type</typeparam>
-        /// <param name="queryType">Type of the query.</param>
-        /// <param name="query">The query.</param>
-        /// <param name="parameters">The parameters.</param>
-        /// <param name="commandTimeout">Command Timeout</param>
-        /// <returns>Task of type T</returns>
         public async Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters, int commandTimeout = 30)
         {
-            MySqlConnection connection = this.GetConnection();
+            SqlConnection connection = this.GetConnection();
 
             T result = default(T);
 
-            MySqlCommand command = new MySqlCommand(query, connection);
+            SqlCommand command = new SqlCommand(query, connection);
             command.CommandType = queryType == DbQueryType.StoredProcedure ? CommandType.StoredProcedure : CommandType.Text;
 
             if (parameters != null && parameters.Length > 0)
@@ -70,9 +48,9 @@ namespace Codentia.Common.Data.Providers
 
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
-                int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false);
+                int outcome = await SqlServerConnectionProvider.Execute<int>(connection, command, false);
 
-                using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                using (SqlDataReader reader = (SqlDataReader)await command.ExecuteReaderAsync())
                 {
 
                     DataTable schemaTable = reader.GetSchemaTable();
@@ -121,7 +99,7 @@ namespace Codentia.Common.Data.Providers
             }
             else
             {
-                result = MySqlConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).Result;
+                result = SqlServerConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).Result;
             }
 
             try
@@ -141,15 +119,7 @@ namespace Codentia.Common.Data.Providers
             return result;
         }
 
-        /// <summary>
-        /// Executes the specified connection.
-        /// </summary>
-        /// <typeparam name="T">Return Type</typeparam>
-        /// <param name="connection">The connection.</param>
-        /// <param name="command">The command.</param>
-        /// <param name="scalar">if set to <c>true</c> [scalar].</param>
-        /// <returns>Results of procedure execution</returns>
-        private static async Task<T> Execute<T>(MySqlConnection connection, MySqlCommand command, bool scalar)
+        private static async Task<T> Execute<T>(SqlConnection connection, SqlCommand command, bool scalar)
         {
             T result = default(T);
             try
@@ -190,22 +160,17 @@ namespace Codentia.Common.Data.Providers
             return result;
         }
 
-        /// <summary>
-        /// Imports the parameters.
-        /// </summary>
-        /// <param name="parameters">The parameters.</param>
-        /// <returns>Array of SqlParameter</returns>
-        private static MySqlParameter[] ImportParameters(DbParameter[] parameters)
+        private static SqlParameter[] ImportParameters(DbParameter[] parameters)
         {
-            MySqlParameter[] sqlParams = null;
+            SqlParameter[] sqlParams = null;
 
             if (parameters != null)
             {
-                sqlParams = new MySqlParameter[parameters.Length];
+                sqlParams = new SqlParameter[parameters.Length];
 
                 for (int i = 0; i < parameters.Length; i++)
                 {
-                    sqlParams[i] = new MySqlParameter();
+                    sqlParams[i] = new SqlParameter();
                     sqlParams[i].ParameterName = parameters[i].ParameterName;
                     sqlParams[i].Direction = parameters[i].Direction;
                     sqlParams[i].Value = DBNull.Value;
@@ -220,38 +185,38 @@ namespace Codentia.Common.Data.Providers
                     switch (parameters[i].DbType)
                     {
                         case DbType.Byte:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Int16;
+                            sqlParams[i].SqlDbType = SqlDbType.Int;
                             break;
                         case DbType.Int16:
                         case DbType.Int32:
                         case DbType.Int64:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Int32;
+                            sqlParams[i].SqlDbType = SqlDbType.Int;
                             break;
                         case DbType.Guid:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Guid;
+                            sqlParams[i].SqlDbType = SqlDbType.UniqueIdentifier;
                             break;
                         case DbType.StringFixedLength:
                         case DbType.String:
-                            sqlParams[i].MySqlDbType = MySqlDbType.VarChar;
+                            sqlParams[i].SqlDbType = SqlDbType.VarChar;
                             sqlParams[i].Size = parameters[i].Size;
                             break;
                         case DbType.Boolean:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Bit;
+                            sqlParams[i].SqlDbType = SqlDbType.Bit;
                             break;
                         case DbType.Currency:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Decimal;
+                            sqlParams[i].SqlDbType = SqlDbType.Decimal;
                             break;
                         case DbType.DateTime:
                         case DbType.DateTime2:
-                            sqlParams[i].MySqlDbType = MySqlDbType.DateTime;
+                            sqlParams[i].SqlDbType = SqlDbType.DateTime;
                             break;
                         case DbType.Decimal:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Decimal;
+                            sqlParams[i].SqlDbType = SqlDbType.Decimal;
                             sqlParams[i].Scale = parameters[i].Scale;
                             sqlParams[i].Precision = parameters[i].Precision;
                             break;
                         case DbType.Xml:
-                            sqlParams[i].MySqlDbType = MySqlDbType.Text;
+                            sqlParams[i].SqlDbType = SqlDbType.Text;
                             break;
                         default:
                             throw new System.NotSupportedException(string.Format("Unsupported DbType: {0}", parameters[i].DbType.ToString()));
@@ -262,20 +227,14 @@ namespace Codentia.Common.Data.Providers
             return sqlParams;
         }
 
-        /// <summary>
-        /// Gets the connection.
-        /// </summary>
-        /// <returns>
-        /// SqlConnection for the corresponding connection string
-        /// </returns>
-        private MySqlConnection GetConnection()
+        private SqlConnection GetConnection()
         {
             if (string.IsNullOrEmpty(_connectionString))
             {
                 throw new System.Exception("Cannot call GetConnection before ConnectionString is set.");
             }
 
-            return new MySqlConnection(_connectionString);
+            return new SqlConnection(_connectionString);
         }
     }
 }

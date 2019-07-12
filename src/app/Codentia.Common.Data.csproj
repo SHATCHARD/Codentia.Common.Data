@@ -26,7 +26,7 @@
         </NuGetPackageImportStamp>
         <PackOnBuild>true</PackOnBuild>
         <PackageId>Codentia.Common.Data</PackageId>
-        <PackageVersion>6.0.8</PackageVersion>
+        <PackageVersion>6.1.0</PackageVersion>
         <Authors>Codentia Ltd</Authors>
         <Owners>Codentia Ltd</Owners>
         <Title>Codentia Common Data Library</Title>
@@ -39,10 +39,9 @@
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
         <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>TRACE;DEBUG;NET461</DefineConstants>
+        <DefineConstants>TRACE;NET461;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <DocumentationFile>bin\Debug\Codentia.Common.Data.XML</DocumentationFile>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <StyleCopTreatErrorsAsWarnings>false</StyleCopTreatErrorsAsWarnings>
         <PlatformTarget>anycpu</PlatformTarget>
@@ -62,7 +61,8 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="2.2.0" />
-        <PackageReference Include="MySqlConnector" Version="0.48.2" />
+        <PackageReference Include="MySqlConnector" Version="0.56.0" />
+        <PackageReference Include="System.Data.SqlClient" Version="4.6.1" />
     </ItemGroup>
     <!--  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />-->
     <ItemGroup>
