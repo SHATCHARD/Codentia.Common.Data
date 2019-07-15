@@ -65,8 +65,14 @@ namespace Codentia.Common.Data.Configuration
                             case "port":
                                 source.Port = item.Value;
                                 break;
+                            case "instance":
+                                source.Instance = item.Value;
+                                break;
                             case "server":
                                 source.Server = item.Value;
+                                break;
+                            case "provider":
+                                source.ProviderType = item.Value;
                                 break;
                         }
                     }

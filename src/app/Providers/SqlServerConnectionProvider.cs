@@ -19,7 +19,7 @@
 
         public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity)
         {
-            instance = string.IsNullOrEmpty(instance) ? string.Empty : $@"\{instance}";
+            instance = string.IsNullOrEmpty(instance) ? string.Empty : $@"{instance}";
 
             string connectionStringTemplate = string.IsNullOrEmpty(database) ? SqlServerConnectionProvider.ConnectionStringNoDatabase : SqlServerConnectionProvider.ConnectionStringDatabase;
             _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance);
