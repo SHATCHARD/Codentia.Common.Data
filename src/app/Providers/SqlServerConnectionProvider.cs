@@ -52,40 +52,47 @@
 
                 using (SqlDataReader reader = (SqlDataReader)await command.ExecuteReaderAsync())
                 {
-
-                    DataTable schemaTable = reader.GetSchemaTable();
-
                     DataSet outputSet = new DataSet();
                     DataTable output = new DataTable();
 
-                    output.TableName = Convert.ToString(schemaTable.Rows[0]["BaseTableName"]);
+                    bool executing = true;
 
-                    foreach (DataRow row in schemaTable.Rows)
+                    while (executing)
                     {
-                        DataColumn col = new DataColumn(Convert.ToString(row["ColumnName"]), Type.GetType(Convert.ToString(row["DataType"])));
-                        output.Columns.Add(col);
-                    }
+                        DataTable schemaTable = reader.GetSchemaTable();
+                        output = new DataTable();
 
-                    while (await reader.ReadAsync())
-                    {
-                        object[] row = new object[output.Columns.Count];
+                        output.TableName = Convert.ToString(schemaTable.Rows[0]["BaseTableName"]);
 
-                        for (int i = 0; i < output.Columns.Count; i++)
+                        foreach (DataRow row in schemaTable.Rows)
                         {
-                            if (reader[i] == null)
-                            {
-                                row[i] = DBNull.Value;
-                            }
-                            else
-                            {
-                                row[i] = reader[i];
-                            }
+                            DataColumn col = new DataColumn(Convert.ToString(row["ColumnName"]), Type.GetType(Convert.ToString(row["DataType"])));
+                            output.Columns.Add(col);
                         }
 
-                        output.Rows.Add(row);
-                    }
+                        while (await reader.ReadAsync())
+                        {
+                            object[] row = new object[output.Columns.Count];
 
-                    outputSet.Tables.Add(output);
+                            for (int i = 0; i < output.Columns.Count; i++)
+                            {
+                                if (reader[i] == null)
+                                {
+                                    row[i] = DBNull.Value;
+                                }
+                                else
+                                {
+                                    row[i] = reader[i];
+                                }
+                            }
+
+                            output.Rows.Add(row);
+                        }
+
+                        outputSet.Tables.Add(output);
+
+                        executing = await reader.NextResultAsync();
+                    }
 
                     if (typeof(T) == typeof(DataTable))
                     {

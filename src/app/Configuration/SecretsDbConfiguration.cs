@@ -24,7 +24,7 @@ namespace Codentia.Common.Data.Configuration
 
             if (!string.IsNullOrEmpty(environment))
             {
-                configurationBuilder.AddJsonFile($"appsettings.{environment}.json", optional: false, reloadOnChange: true);
+                configurationBuilder.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
             }
 
             configurationBuilder.AddUserSecrets<TSecrets>(true);
