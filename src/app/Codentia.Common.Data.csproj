@@ -26,7 +26,7 @@
         </NuGetPackageImportStamp>
         <PackOnBuild>true</PackOnBuild>
         <PackageId>Codentia.Common.Data</PackageId>
-        <PackageVersion>6.1.5</PackageVersion>
+        <PackageVersion>6.1.6</PackageVersion>
         <Authors>Codentia Ltd</Authors>
         <Owners>Codentia Ltd</Owners>
         <Title>Codentia Common Data Library</Title>
