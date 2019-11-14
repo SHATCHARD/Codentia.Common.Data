@@ -48,8 +48,6 @@
 
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
-                int outcome = await SqlServerConnectionProvider.Execute<int>(connection, command, false);
-
                 using (SqlDataReader reader = (SqlDataReader)await command.ExecuteReaderAsync())
                 {
                     DataSet outputSet = new DataSet();

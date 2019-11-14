@@ -70,11 +70,8 @@ namespace Codentia.Common.Data.Providers
 
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
-                int outcome = await MySqlConnectionProvider.Execute<int>(connection, command, false);
-
                 using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
                 {
-
                     DataTable schemaTable = reader.GetSchemaTable();
 
                     DataSet outputSet = new DataSet();
