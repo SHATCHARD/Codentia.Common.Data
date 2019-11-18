@@ -68,6 +68,11 @@ namespace Codentia.Common.Data.Providers
 
             command.CommandTimeout = commandTimeout;
 
+            if (connection.State != ConnectionState.Open)
+            {
+                await connection.OpenAsync();
+            }
+
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
                 using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
