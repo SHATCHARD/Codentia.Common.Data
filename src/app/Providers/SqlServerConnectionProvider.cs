@@ -46,6 +46,11 @@
 
             command.CommandTimeout = commandTimeout;
 
+            if (connection.State != ConnectionState.Open)
+            {
+                await connection.OpenAsync();
+            }
+
             if (typeof(T) == typeof(DataTable) || typeof(T) == typeof(DataSet))
             {
                 using (SqlDataReader reader = (SqlDataReader)await command.ExecuteReaderAsync())
