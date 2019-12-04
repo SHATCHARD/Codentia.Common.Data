@@ -13,14 +13,15 @@ namespace Codentia.Common.Data.Configuration
     {
         public SecretsDbConfiguration()
         {
+            string environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            Console.Out.WriteLine($"Starting up as {environment} environment");
+
             this.Sources = new List<DbSource>();
 
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-                   .SetBasePath(Directory.Exists("/run/secrets") ? "/run/secrets/api/" : Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-
-            string environment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            Console.Out.WriteLine($"Starting up as {environment} environment");
+                   .SetBasePath(Directory.Exists("/run/secrets") && Directory.Exists("/run/secrets/api") ? "/run/secrets/api/" : Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    ;
 
             if (!string.IsNullOrEmpty(environment))
             {
