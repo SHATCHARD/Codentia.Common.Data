@@ -2,14 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>edi-parser</UserSecretsId>
+    <PackageId>Codentia.Common.Data</PackageId>
+    <Version>6.2.0</Version>
+    <Authors>Matt Chatterley</Authors>
+    <Company>Codentia Ltd</Company>
+    <Description>
+        Simple Data Access component wrapping both MySqlConnector and System.Data.SqlClient in a common interface.
+    </Description>
   </PropertyGroup>
   
-    <ItemGroup>
+      <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
         <PackageReference Include="MySqlConnector" Version="1.2.1" />
         <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
     </ItemGroup>
