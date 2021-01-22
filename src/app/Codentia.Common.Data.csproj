@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>Codentia.Common.Data</PackageId>
-    <Version>6.2.0</Version>
+    <Version>6.2.1</Version>
     <Authors>Matt Chatterley</Authors>
     <Company>Codentia Ltd</Company>
     <Description>
