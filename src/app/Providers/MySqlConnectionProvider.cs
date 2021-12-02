@@ -125,18 +125,11 @@ namespace Codentia.Common.Data.Providers
                 result = MySqlConnectionProvider.Execute<T>(connection, command, typeof(T) != typeof(DBNull)).Result;
             }
 
-            try
+            if (connection.State == ConnectionState.Open)
             {
-                if (connection.State == ConnectionState.Open)
-                {
-                    connection.Close();
-                    connection.Dispose();
-                    command.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
+                connection.Close();
+                connection.Dispose();
+                command.Dispose();
             }
 
             return result;
@@ -153,39 +146,33 @@ namespace Codentia.Common.Data.Providers
         private static async Task<T> Execute<T>(MySqlConnection connection, MySqlCommand command, bool scalar)
         {
             T result = default(T);
-            try
+
+            if (connection.State != ConnectionState.Open)
             {
-                if (connection.State != ConnectionState.Open)
+                await connection.OpenAsync();
+            }
+
+            if (!scalar)
+            {
+                int taskResult = await command.ExecuteNonQueryAsync();
+
+                if (typeof(T) != typeof(DBNull))
                 {
-                    await connection.OpenAsync();
+                    result = (T)Convert.ChangeType(taskResult, typeof(T));
                 }
+            }
+            else
+            {
+                object scalarResult = await command.ExecuteScalarAsync();
 
-                if (!scalar)
+                if (result is IConvertible)
                 {
-                    int taskResult = await command.ExecuteNonQueryAsync();
-
-                    if (typeof(T) != typeof(DBNull))
-                    {
-                        result = (T)Convert.ChangeType(taskResult, typeof(T));
-                    }
+                    result = (T)Convert.ChangeType(scalarResult, typeof(T));
                 }
                 else
                 {
-                    object scalarResult = await command.ExecuteScalarAsync();
-
-                    if (result is IConvertible)
-                    {
-                        result = (T)Convert.ChangeType(scalarResult, typeof(T));
-                    }
-                    else
-                    {
-                        result = (T)scalarResult;
-                    }
+                    result = (T)scalarResult;
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
             }
 
             return result;
@@ -231,6 +218,8 @@ namespace Codentia.Common.Data.Providers
                         case DbType.Guid:
                             sqlParams[i].MySqlDbType = MySqlDbType.Guid;
                             break;
+                        case DbType.AnsiStringFixedLength:
+                        case DbType.AnsiString:
                         case DbType.StringFixedLength:
                         case DbType.String:
                             sqlParams[i].MySqlDbType = MySqlDbType.VarChar;
