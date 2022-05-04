@@ -75,6 +75,9 @@ namespace Codentia.Common.Data.Configuration
                             case "provider":
                                 source.ProviderType = item.Value;
                                 break;
+                            case "connection_string":
+                                source.FullConnectionString = item.Value;
+                                break;
                         }
                     }
 
@@ -101,7 +104,14 @@ namespace Codentia.Common.Data.Configuration
                             Debug = source.Debug
                         };
 
-                        provider.AddConnectionString(source.Server, source.Instance == null ? string.Empty : source.Instance, source.Database, source.Username, source.Password, false);
+                        if (!string.IsNullOrEmpty(source.FullConnectionString))
+                        {
+                            provider.AddConnectionString(source.FullConnectionString);
+                        }
+                        else
+                        {
+                            provider.AddConnectionString(source.Server, source.Instance == null ? string.Empty : source.Instance, source.Database, source.Username, source.Password, false);
+                        }
                         break;
                     default:
                         provider = new MySqlConnectionProvider()
@@ -109,7 +119,14 @@ namespace Codentia.Common.Data.Configuration
                             Debug = source.Debug
                         };
 
-                        provider.AddConnectionString(source.Server, source.Port == null ? string.Empty : source.Port, source.Database, source.Username, source.Password, false);
+                        if (!string.IsNullOrEmpty(source.FullConnectionString))
+                        {
+                            provider.AddConnectionString(source.FullConnectionString);
+                        }
+                        else
+                        {
+                            provider.AddConnectionString(source.Server, source.Port == null ? string.Empty : source.Port, source.Database, source.Username, source.Password, false);
+                        }
                         break;
                 }
             }

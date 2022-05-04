@@ -42,6 +42,16 @@ namespace Codentia.Common.Data.Providers
             }
         }
 
+        public void AddConnectionString(string fullConnectionString)
+        {
+            _connectionString = fullConnectionString;
+
+            if (this.Debug)
+            {
+                Console.Out.WriteLine(_connectionString);
+            }
+        }
+        
         /// <summary>
         /// Executes the specified query type.
         /// </summary>

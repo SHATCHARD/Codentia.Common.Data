@@ -30,6 +30,16 @@
             }
         }
 
+        public void AddConnectionString(string fullConnectionString)
+        {
+            _connectionString = fullConnectionString;
+
+            if (this.Debug)
+            {
+                Console.Out.WriteLine(_connectionString);
+            }
+        }
+
         public async Task<T> Execute<T>(DbQueryType queryType, string query, DbParameter[] parameters, int commandTimeout = 30)
         {
             SqlConnection connection = this.GetConnection();

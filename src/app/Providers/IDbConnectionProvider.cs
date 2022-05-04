@@ -21,6 +21,12 @@ namespace Codentia.Common.Data.Providers
         void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity);
 
         /// <summary>
+        /// Adds a complete, full connection string
+        /// </summary> 
+        /// <param name="fullConnectionString">The entire connection string to add</param>
+        void AddConnectionString(string fullConnectionString);
+
+        /// <summary>
         /// Executes the specified query type.
         /// </summary>
         /// <typeparam name="T">Return Type</typeparam>
