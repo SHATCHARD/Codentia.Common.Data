@@ -3,11 +3,11 @@
   <PropertyGroup>
       <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackageId>Codentia.Common.Data</PackageId>
-    <Version>6.3.1</Version>
+    <Version>6.4.0</Version>
     <Authors>Matt Chatterley</Authors>
     <Company>Codentia Ltd</Company>
     <Description>
-        Simple Data Access component wrapping both MySqlConnector and System.Data.SqlClient in a common interface.
+        Simple Data Access component wrapping both MySqlConnector and Microsoft.Data.SqlClient in a common interface.
     </Description>
   </PropertyGroup>
   
@@ -17,6 +17,6 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
         <PackageReference Include="MySqlConnector" Version="2.1.8" />
-        <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="4.1.0" />
     </ItemGroup>
 </Project>
