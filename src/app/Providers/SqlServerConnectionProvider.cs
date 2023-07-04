@@ -10,19 +10,19 @@
 
     public class SqlServerConnectionProvider : IDbConnectionProvider
     {
-        private const string ConnectionStringDatabase = @"Server={0}{4};Database={1};User Id={2};Password={3};";
+        private const string ConnectionStringDatabase = @"Server={0}{4};Database={1};User Id={2};Password={3};Encrypt={5};";
         private const string ConnectionStringNoDatabase = @"Server={0}{4};User Id={2};Password={3};";
 
         private string _connectionString;
 
         public bool Debug { get; set; }
 
-        public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity)
+        public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, string encrypt)
         {
             instance = string.IsNullOrEmpty(instance) ? string.Empty : $@"{instance}";
 
             string connectionStringTemplate = string.IsNullOrEmpty(database) ? SqlServerConnectionProvider.ConnectionStringNoDatabase : SqlServerConnectionProvider.ConnectionStringDatabase;
-            _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance);
+            _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance, encrypt);
 
             if (this.Debug)
             {

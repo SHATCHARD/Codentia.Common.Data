@@ -18,11 +18,11 @@ namespace Codentia.Common.Data.Providers
         /// <param name="userId">The user identifier.</param>
         /// <param name="password">The password.</param>
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
-        void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity);
+        void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, string encrypt);
 
         /// <summary>
         /// Adds a complete, full connection string
-        /// </summary> 
+        /// </summary>
         /// <param name="fullConnectionString">The entire connection string to add</param>
         void AddConnectionString(string fullConnectionString);
 

@@ -21,6 +21,8 @@ namespace Codentia.Common.Data.Configuration
 
         public string FullConnectionString { get; set; }
 
+        public string Encrypt { get; set; }
+
         public bool Debug { get; set; }
     }
 }

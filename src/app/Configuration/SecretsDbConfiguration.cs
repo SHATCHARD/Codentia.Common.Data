@@ -75,6 +75,9 @@ namespace Codentia.Common.Data.Configuration
                             case "provider":
                                 source.ProviderType = item.Value;
                                 break;
+                            case "encrypt":
+                                source.Encrypt = item.Value;
+                                break;
                             case "connection_string":
                                 source.FullConnectionString = item.Value;
                                 break;
@@ -110,7 +113,7 @@ namespace Codentia.Common.Data.Configuration
                         }
                         else
                         {
-                            provider.AddConnectionString(source.Server, source.Instance == null ? string.Empty : source.Instance, source.Database, source.Username, source.Password, false);
+                            provider.AddConnectionString(source.Server, source.Instance == null ? string.Empty : source.Instance, source.Database, source.Username, source.Password, false, source.Encrypt);
                         }
                         break;
                     default:
@@ -125,7 +128,7 @@ namespace Codentia.Common.Data.Configuration
                         }
                         else
                         {
-                            provider.AddConnectionString(source.Server, source.Port == null ? string.Empty : source.Port, source.Database, source.Username, source.Password, false);
+                            provider.AddConnectionString(source.Server, source.Port == null ? string.Empty : source.Port, source.Database, source.Username, source.Password, false, source.Encrypt);
                         }
                         break;
                 }
