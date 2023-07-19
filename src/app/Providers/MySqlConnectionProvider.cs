@@ -15,7 +15,7 @@ namespace Codentia.Common.Data.Providers
     {
         private const string ConnectionStringDatabase = @"Server={0};Port={4};Database={1};Uid={2};Pwd={3};";
         private const string ConnectionStringNoDatabase = @"Server={0};Port={4};Uid={2};Pwd={3};";
- 
+
         private string _connectionString;
 
         public bool Debug { get; set; }
@@ -51,7 +51,7 @@ namespace Codentia.Common.Data.Providers
                 Console.Out.WriteLine(_connectionString);
             }
         }
-        
+
         /// <summary>
         /// Executes the specified query type.
         /// </summary>
@@ -221,9 +221,22 @@ namespace Codentia.Common.Data.Providers
                             sqlParams[i].MySqlDbType = MySqlDbType.Int16;
                             break;
                         case DbType.Int16:
+                            sqlParams[i].MySqlDbType = MySqlDbType.Int16;
+                            break;
                         case DbType.Int32:
-                        case DbType.Int64:
                             sqlParams[i].MySqlDbType = MySqlDbType.Int32;
+                            break;
+                        case DbType.Int64:
+                            sqlParams[i].MySqlDbType = MySqlDbType.Int64;
+                            break;
+                        case DbType.UInt16:
+                            sqlParams[i].MySqlDbType = MySqlDbType.UInt16;
+                            break;
+                        case DbType.UInt32:
+                            sqlParams[i].MySqlDbType = MySqlDbType.UInt32;
+                            break;
+                        case DbType.UInt64:
+                            sqlParams[i].MySqlDbType = MySqlDbType.UInt64;
                             break;
                         case DbType.Guid:
                             sqlParams[i].MySqlDbType = MySqlDbType.Guid;
