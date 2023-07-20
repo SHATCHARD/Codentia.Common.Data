@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -15,6 +15,7 @@ namespace Codentia.Common.Data.Providers
     {
         private const string ConnectionStringDatabase = @"Server={0};Port={4};Database={1};Uid={2};Pwd={3};";
         private const string ConnectionStringNoDatabase = @"Server={0};Port={4};Uid={2};Pwd={3};";
+        private const string RequireSSL = "SSL Mode=Required;";
 
         private string _connectionString;
 
@@ -29,12 +30,20 @@ namespace Codentia.Common.Data.Providers
         /// <param name="userId">The user identifier.</param>
         /// <param name="password">The password.</param>
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
-        public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, string encrypt)
+        public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, bool encrypt, bool trustServerCertificate)
         {
             instance = string.IsNullOrEmpty(instance) ? "3306" : instance;
 
             string connectionStringTemplate = string.IsNullOrEmpty(database) ? MySqlConnectionProvider.ConnectionStringNoDatabase : MySqlConnectionProvider.ConnectionStringDatabase;
-            _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance);
+
+            if(encrypt)
+            {
+                _connectionString = string.Format($"{connectionStringTemplate}{RequireSSL}", server, database, userId, password, instance);
+            }
+            else
+            {
+                _connectionString = string.Format(connectionStringTemplate, server, database, userId, password, instance);
+            }
 
             if (this.Debug)
             {

@@ -76,7 +76,10 @@ namespace Codentia.Common.Data.Configuration
                                 source.ProviderType = item.Value;
                                 break;
                             case "encrypt":
-                                source.Encrypt = item.Value;
+                                source.Encrypt = item.Value == string.Empty ? false : Convert.ToBoolean(item.Value);
+                                break;
+                            case "trust_certificate":
+                                source.TrustServerCertificate = item.Value == string.Empty ? false : Convert.ToBoolean(item.Value);
                                 break;
                             case "connection_string":
                                 source.FullConnectionString = item.Value;
@@ -113,7 +116,7 @@ namespace Codentia.Common.Data.Configuration
                         }
                         else
                         {
-                            provider.AddConnectionString(source.Server, source.Instance == null ? string.Empty : source.Instance, source.Database, source.Username, source.Password, false, source.Encrypt);
+                            provider.AddConnectionString(source.Server, source.Instance == null ? string.Empty : source.Instance, source.Database, source.Username, source.Password, false, source.Encrypt, source.TrustServerCertificate);
                         }
                         break;
                     default:
@@ -128,7 +131,7 @@ namespace Codentia.Common.Data.Configuration
                         }
                         else
                         {
-                            provider.AddConnectionString(source.Server, source.Port == null ? string.Empty : source.Port, source.Database, source.Username, source.Password, false, source.Encrypt);
+                            provider.AddConnectionString(source.Server, source.Port == null ? string.Empty : source.Port, source.Database, source.Username, source.Password, false, source.Encrypt, source.TrustServerCertificate);
                         }
                         break;
                 }

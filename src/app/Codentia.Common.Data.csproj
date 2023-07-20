@@ -3,7 +3,7 @@
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Codentia.Common.Data</PackageId>
-    <Version>6.4.0</Version>
+    <Version>6.5.0</Version>
     <Authors>Matt Chatterley</Authors>
     <Company>Codentia Ltd</Company>
     <Description>

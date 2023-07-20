@@ -18,7 +18,7 @@ namespace Codentia.Common.Data.Providers
         /// <param name="userId">The user identifier.</param>
         /// <param name="password">The password.</param>
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
-        void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, string encrypt);
+        void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, bool encrypt, bool trustServerCertificate);
 
         /// <summary>
         /// Adds a complete, full connection string
