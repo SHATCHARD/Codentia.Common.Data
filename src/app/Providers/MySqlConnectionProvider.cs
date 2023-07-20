@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -29,7 +29,7 @@ namespace Codentia.Common.Data.Providers
         /// <param name="userId">The user identifier.</param>
         /// <param name="password">The password.</param>
         /// <param name="integratedSecurity">if set to <c>true</c> [integrated security].</param>
-        public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity)
+        public void AddConnectionString(string server, string instance, string database, string userId, string password, bool integratedSecurity, string encrypt)
         {
             instance = string.IsNullOrEmpty(instance) ? "3306" : instance;
 
@@ -51,7 +51,7 @@ namespace Codentia.Common.Data.Providers
                 Console.Out.WriteLine(_connectionString);
             }
         }
-        
+
         /// <summary>
         /// Executes the specified query type.
         /// </summary>
