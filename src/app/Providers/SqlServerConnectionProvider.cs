@@ -10,7 +10,7 @@
 
     public class SqlServerConnectionProvider : IDbConnectionProvider
     {
-        private const string ConnectionStringDatabase = @"Server={0}{4};Database={1};User Id={2};Password={3};Encrypt={5};TrustServerCertificate";
+        private const string ConnectionStringDatabase = @"Server={0}{4};Database={1};User Id={2};Password={3};Encrypt={5};TrustServerCertificate={6};";
         private const string ConnectionStringNoDatabase = @"Server={0}{4};User Id={2};Password={3};";
 
         private string _connectionString;
