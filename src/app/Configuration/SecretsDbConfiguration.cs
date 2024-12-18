@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using Microsoft.Extensions.Configuration.UserSecrets;
-using Codentia.Common.Data.Providers;
-
-namespace Codentia.Common.Data.Configuration
+﻿namespace Codentia.Common.Data.Configuration
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using Microsoft.Extensions.Configuration;
+    using Codentia.Common.Data.Providers;
+
     public class SecretsDbConfiguration<TSecrets> where TSecrets : class
     {
         public SecretsDbConfiguration()
@@ -19,16 +17,12 @@ namespace Codentia.Common.Data.Configuration
             this.Sources = new List<DbSource>();
 
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-                   .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false);
-
-            if (!string.IsNullOrEmpty(environment))
-            {
-                configurationBuilder.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: false);
-                configurationBuilder.AddJsonFile($"secrets/appsettings.{environment}.json", optional: true, reloadOnChange: false);
-            }
-
-            configurationBuilder.AddUserSecrets<TSecrets>(optional: true);
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+                .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: false)
+                .AddJsonFile($"secrets/appsettings.{environment}.json", optional: true, reloadOnChange: false)
+                .AddUserSecrets<TSecrets>(optional: true)
+                .AddEnvironmentVariables();
 
             IConfigurationRoot root = configurationBuilder.Build();
 

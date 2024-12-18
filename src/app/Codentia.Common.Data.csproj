@@ -3,7 +3,7 @@
   <PropertyGroup>
       <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>Codentia.Common.Data</PackageId>
-    <Version>6.5.2</Version>
+    <Version>6.5.3</Version>
     <Authors>Matt Chatterley</Authors>
     <Company>Codentia Ltd</Company>
     <Description>
@@ -14,9 +14,10 @@
       <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
-        <PackageReference Include="MySqlConnector" Version="2.3.5" />
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+        <PackageReference Include="MySqlConnector" Version="2.4.0" />
+        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.2.2" />
     </ItemGroup>
 </Project>
